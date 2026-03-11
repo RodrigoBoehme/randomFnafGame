@@ -9,15 +9,12 @@ function fnafAlikeGame() {
     switch (option) {
       case "1":
         fnafAlike(3,5,2,1)
-        if(checkLifes()){return}
         break;
       case "2":
         fnafAlike(5, 7, 3, 4);
-        if(checkLifes()){return}
       break;
       case "3":
         fnafAlike(1, 9, 8, 7);
-        if(checkLifes()){return}
       break;
       case "4":
         console.log("Custom Night, Set the difficulty for each animatronic: (Min: 0, Max: 10)")
@@ -28,6 +25,15 @@ function fnafAlikeGame() {
         fnafAlike(bn,fr,fx,ch)
 
       break;
+
+      case "123":
+        console.log("Test: 10,10,10,10")
+        fnafAlike(10,10,10,10)
+      break;
+      case "1234":
+        console.log("Test, 1,1,1,1")
+        fnafAlike(1,1,1,1)
+      break
 
       case "0":return;
 
@@ -50,8 +56,8 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
   let thunder=false;
   let fuseStatus=true;
   let energy = 30;
-  let door = (doorBtn&&fuseStatus);
   let doorBtn=true;
+  function door(){return doorBtn&&fuseStatus}
   let animatronics = [
     { name: "Bonnie", position: 0, path: 5, level: Bd, canAtk: false,status:true, rooms:["Stage","Dining Area","Parts & Services","Supply Closet","Corridor","Security Door"]},
     { name: "Freddy", position: 0, path: 7, level: Fd, canAtk: false ,status:true,rooms:["Stage","Dining Area","Restrooms","Kitchen","Restrooms","Kitchen","Corridor","Security Door"]},
@@ -59,7 +65,6 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
     { name: "Chica", position: 0, path: 5, level: Cd, canAtk: false ,status:true,rooms:["Stage","Dining Area","Restrooms","Kitchen","Corridor","Security Door"]},
   ];
 
-  console.clear();
   console.log(
     "A game inspired in Five nights at Freddys, you have limited \n power only one door to worry and the same 4 animatronics to\n worry about, winning condition you ask? Just survive for 25 rounds",
   );
@@ -69,7 +74,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
     );
 
     let opt = readline.questionInt("What are your action: ");
-    console.clear();
+    // console.clear();
     switch (opt) {
       case 1:
         if (energy > 0) {
@@ -84,7 +89,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
 
       case 2:
         if (energy > 1) {
-          door = false;
+          doorBtn = false;
           energy -= 2;
         } else {
           console.log("The door cant be closed, pray no one tries to enter");
@@ -96,7 +101,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
           for (let a = 0; a < animatronics.length; a++) {
             console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]);
           }
-          door = false;
+          doorBtn = false;
           energy -= 4;
         } else {
           console.log("No energy to close the doors or check the animatronics");
@@ -125,10 +130,11 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
         console.log("This is an easter egg, the game ends!");
         return;
     }
-    for (let ac = 0; ac < animatronics.length; ac++) {}
+    for (let ac = 0; ac < animatronics.length; ac++) {
+
+    }
     if (r == 25) {
       console.log("You survived the night");
-    //   gameState.addScore(55);
       return;
     }
 
@@ -138,15 +144,14 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
         thunder=true;
     }
     }
-    if(thunder&&door){
+    if(thunder&&door()){
         if(Math.floor(Math.random() * 100 + 1)<10){fuseStatus=false}
         console.log("A thunder blew the fuse")
     }
     for (let aa = 0; aa < animatronics.length; aa++) {
-      if (animatronics[aa].position >= animatronics[aa].path && door && animatronics[aa].canAtk) {
+      if (animatronics[aa].position >= animatronics[aa].path && !door() && animatronics[aa].canAtk) {
         if (Math.floor(Math.random() * 10 + 1) <= animatronics[aa].level) {
           readline.question("You got jumpscare by " + animatronics[aa].name);
-        //   gameState.loseLife();
           return;
         }
       } else if (
@@ -165,7 +170,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
         animatronics[aa].canAtk = true;
       } else {
         if (Math.floor(Math.random() * 10 + 1) <= animatronics[aa].level) {
-          if (Math.floor(Math.random() * 20 + 1) <= 2) {
+          if (Math.floor(Math.random() * 20 + 1) <= 2&&animatronics[aa].position<=animatronics[aa].path-2) {
             animatronics[aa].position++;
           }
           animatronics[aa].position++;
@@ -176,14 +181,16 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
     }
 
     if(thunder){
-
         energy++
     if(Math.floor(Math.random() * 100 + 1)<70){
         thunder=false;
+        console.log("Thunder has stopped")
     }
     }
     r++;
-
+    console.log('Door: '+door())
     doorBtn=false;
+    console.log('Door: '+door())
   }
 }
+fnafAlikeGame()
