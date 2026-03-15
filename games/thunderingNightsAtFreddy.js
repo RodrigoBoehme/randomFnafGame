@@ -1,6 +1,9 @@
 const readline = require("readline-sync");
 
+
+
 function fnafAlikeGame() {
+  console.clear()
   while (true) {
     console.log(
       "What night you wanna play? \n1) First Night\n2) Second Nigth\n3) Third Night \n0) Exit Game",
@@ -56,7 +59,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
   let thunder = false;
   let fuseStatus = true;
   let emergencyFuse = true;
-  let energy = 40;
+  let energy = 60;
   let doorBtn = true;
   let dev=false
   function door() { if (doorBtn && (fuseStatus || emergencyFuse)) { return true } else { return false } }
@@ -66,17 +69,20 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
     { name: "Foxy", position: 0, path: 4, level: Fx, defaultLvl:Fx,overcharged:false,canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Pirate Cove", "Corridor", "Security Door"] },
     { name: "Chica", position: 0, path: 5, level: Cd, defaultLvl:Cd,overcharged:false,canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
   ];
+  console.clear()
 
   console.log(
     "A game inspired in Five nights at Freddys, you have limited \n power only one door to worry and the same 4 animatronics to\n worry about, winning condition you ask? Just survive for 25 rounds",
   );
+  readline.question("Press Any to continue")
+  console.clear()
   while (true) {
     console.log(
       "1) Check Positions \n2) Hold door closed \n3) Close door and check animatronics \n4) Change Fuses\nA) Nothing",
     );
 
     let opt = readline.questionInt("What are your action: ");
-    // console.clear();
+    console.clear();
     switch (opt) {
       case 1:
         if (energy > 0) {
@@ -142,7 +148,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
     for (let ac = 0; ac < animatronics.length; ac++) {
 
     }
-    if (r >= 35) {
+    if (r >= 50) {
       console.log("You survived the night");
       return;
     }
@@ -187,6 +193,8 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
             animatronics[aa].overcharged=false
 
           }
+      }else if(animatronics[aa].position >= animatronics[aa].path &&Math.floor(Math.random()*10+1)<4){
+
       }else if (animatronics[aa].position >= animatronics[aa].path && !door() && animatronics[aa].canAtk) {
         if (Math.floor(Math.random() * 10 + 1) <= animatronics[aa].level) {
           readline.question("You got jumpscare by " + animatronics[aa].name);
