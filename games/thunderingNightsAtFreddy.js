@@ -1,12 +1,29 @@
 const readline = require("readline-sync");
 
+let silentSteps = false
+
+function acessibility() {
+  while (true) {
+    opt = readline.question("Turn Silent steps on? Y/N\n")
+    if (opt.toLowerCase() == "y") {
+      silentSteps = false
+      return
+    }
+    if (opt.toLowerCase() == "n") {
+      silentSteps = true
+      return
+    }
+    console.log("Invalid option")
+  }
+}
 
 
 function fnafAlikeGame() {
   console.clear()
+
   while (true) {
     console.log(
-      "What night you wanna play? \n1) First Night\n2) Second Nigth\n3) Third Night \n0) Exit Game",
+      "What night you wanna play? \n1) First Night\n2) Second Nigth\n3) Third Night \n4) Acessibility \n0) Exit Game",
     );
     let option = readline.question("Input number: ");
     switch (option) {
@@ -19,7 +36,11 @@ function fnafAlikeGame() {
       case "3":
         fnafAlike(1, 9, 8, 7);
         break;
+
       case "4":
+        acessibility();
+        break
+      case "5":
         console.log("Custom Night, Set the difficulty for each animatronic: (Min: 0, Max: 10)")
         let bn = readline.questionInt("Bonnie: ")
         let fr = readline.questionInt("Freddy: ")
@@ -61,13 +82,13 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
   let emergencyFuse = true;
   let energy = 60;
   let doorBtn = true;
-  let dev=false
+  let dev = false
   function door() { if (doorBtn && (fuseStatus || emergencyFuse)) { return true } else { return false } }
   let animatronics = [
-    { name: "Bonnie", position: 0, path: 5, level: Bd,defaultLvl:Bd, overcharged:false,canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
-    { name: "Freddy", position: 0, path: 5, level: Fd, defaultLvl:Fd ,overcharged:false,canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
-    { name: "Foxy", position: 0, path: 4, level: Fx, defaultLvl:Fx,overcharged:false,canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Pirate Cove", "Corridor", "Security Door"] },
-    { name: "Chica", position: 0, path: 5, level: Cd, defaultLvl:Cd,overcharged:false,canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
+    { name: "Bonnie", position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
+    { name: "Freddy", position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
+    { name: "Foxy", position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Pirate Cove", "Corridor", "Security Door"] },
+    { name: "Chica", position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
   ];
   console.clear()
 
@@ -140,9 +161,9 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
 
       case 2709:
         console.error("DevMode")
-        dev=!dev
+        dev = !dev
 
-      break;
+        break;
 
     }
     for (let ac = 0; ac < animatronics.length; ac++) {
@@ -152,21 +173,21 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
       console.log("You survived the night");
       return;
     }
-    if(dev){
+    if (dev) {
 
-      console.log("Round:"+r)
-      console.log("Energy"+energy)
-      console.log("Door status:"+door())
-      console.log("Thunder?: "+thunder)
-      console.log("Fuses status: "+fuseStatus+" Emergency fuse:"+emergencyFuse)
-      console.log("SpareFuses:"+spareFuses)
-      let iaEn=[]
+      console.log("Round:" + r)
+      console.log("Energy" + energy)
+      console.log("Door status:" + door())
+      console.log("Thunder?: " + thunder)
+      console.log("Fuses status: " + fuseStatus + " Emergency fuse:" + emergencyFuse)
+      console.log("SpareFuses:" + spareFuses)
+      let iaEn = []
 
-      for(let ia=0;ia<animatronics.length;ia++){
-        iaEn[ia]=animatronics[ia].level
+      for (let ia = 0; ia < animatronics.length; ia++) {
+        iaEn[ia] = animatronics[ia].level
       }
-        console.log("Current Ia: Bn:"+iaEn[0]+" Fr:"+iaEn[1]+" Ch:"+iaEn[2]+" Fx"+iaEn[3])
-      
+      console.log("Current Ia: Bn:" + iaEn[0] + " Fr:" + iaEn[1] + " Ch:" + iaEn[2] + " Fx" + iaEn[3])
+
     }
 
     if (!thunder) {
@@ -181,22 +202,23 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
         console.log("A thunder blew the fuse")
       }
     } else if (thunder && door()) {
-      if(Math.floor(Math.random()*10+1)>6){
-        emergencyFuse=false
+      if (Math.floor(Math.random() * 10 + 1) > 6) {
+        emergencyFuse = false
         console.log("Emergency fuse destroyed")
       }
     }
     for (let aa = 0; aa < animatronics.length; aa++) {
-      if(animatronics[aa].overcharged){
-          animatronics[aa].level--
-          if(animatronics[aa].level==animatronics[aa].defaultLvl){
-            animatronics[aa].overcharged=false
+      if (animatronics[aa].overcharged) {
+        animatronics[aa].level--
+        if (animatronics[aa].level == animatronics[aa].defaultLvl) {
+          animatronics[aa].overcharged = false
 
-          }
-      }else if(animatronics[aa].position >= animatronics[aa].path &&Math.floor(Math.random()*10+1)<4){
+        }
+      } else if (animatronics[aa].position >= animatronics[aa].path && Math.floor(Math.random() * 10 + 1) < 4) {
 
-      }else if (animatronics[aa].position >= animatronics[aa].path && !door() && animatronics[aa].canAtk) {
+      } else if (animatronics[aa].position >= animatronics[aa].path && !door() && animatronics[aa].canAtk) {
         if (Math.floor(Math.random() * 10 + 1) <= animatronics[aa].level) {
+          console.clear()
           readline.question("You got jumpscare by " + animatronics[aa].name);
           return;
         }
@@ -214,7 +236,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
         !animatronics[aa].canAtk
       ) {
         animatronics[aa].canAtk = true;
-        console.log("Someones At the door")
+        if(silentSteps){console.log("Someones At the door")}
       } else if (animatronics[aa].position > 1 && Math.floor(Math.random() * 100 + 1) < 15) {
         if (animatronics[aa].position > 2 && Math.floor(Math.random() * 100 + 1) < 10) {
           animatronics[aa].position--
@@ -230,11 +252,11 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
 
       }
 
-      if(thunder&&!animatronics[aa].overcharged){ 
+      if (thunder && !animatronics[aa].overcharged) {
         animatronics[aa].level++
-        if(animatronics[aa].level>12){
-          console.log(animatronics[aa].name+" got overcharded and went offline")
-          animatronics[aa].overcharged=true
+        if (animatronics[aa].level > 12) {
+          console.log(animatronics[aa].name + " got overcharded and went offline")
+          animatronics[aa].overcharged = true
         }
       }
     }
