@@ -4,7 +4,7 @@ let silentSteps = false
 
 function acessibility() {
   while (true) {
-    opt = readline.question("Turn Silent steps on? Y/N\n")
+    opt = readline.question("Turn Silent steps on?(This will make the game harder) Y/N\n")
     if (opt.toLowerCase() == "y") {
       silentSteps = false
       return
@@ -28,13 +28,13 @@ function fnafAlikeGame() {
     let option = readline.question("Input number: ");
     switch (option) {
       case "1":
-        fnafAlike(3, 5, 2, 1)
+        fnafAlike(3, 1, 2, 1,40)
         break;
       case "2":
-        fnafAlike(5, 7, 3, 4);
+        fnafAlike(2, 5, 3, 4,40);
         break;
       case "3":
-        fnafAlike(1, 9, 8, 7);
+        fnafAlike(5, 9, 8, 7,40);
         break;
 
       case "4":
@@ -46,17 +46,18 @@ function fnafAlikeGame() {
         let fr = readline.questionInt("Freddy: ")
         let fx = readline.questionInt("Foxy: ")
         let ch = readline.questionInt("Chica: ")
-        fnafAlike(bn, fr, fx, ch)
+        let rounds=readline.questionInt("Number of Rounds: ")
+        fnafAlike(bn, fr, fx, ch,rounds)
 
         break;
 
       case "123":
         console.log("Test: 10,10,10,10")
-        fnafAlike(10, 10, 10, 10)
+        fnafAlike(10, 10, 10, 10,20)
         break;
-      case "1234":
+      case "321":
         console.log("Test, 1,1,1,1")
-        fnafAlike(1, 1, 1, 1)
+        fnafAlike(1, 1, 1, 1,10)
         break
 
       case "0": return;
@@ -74,13 +75,13 @@ function fnafAlikeGame() {
   }
 }
 
-function fnafAlike(Bd, Fd, Fx, Cd) {
+function fnafAlike(Bd, Fd, Fx, Cd,Rounds) {
   let r = 0;
   let spareFuses = 3;
   let thunder = false;
   let fuseStatus = true;
   let emergencyFuse = true;
-  let energy = 60;
+  let energy = Math.floor(Rounds*1.4);
   let doorBtn = true;
   let dev = false
   function door() { if (doorBtn && (fuseStatus || emergencyFuse)) { return true } else { return false } }
@@ -169,7 +170,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
     for (let ac = 0; ac < animatronics.length; ac++) {
 
     }
-    if (r >= 50) {
+    if (r >= Rounds) {
       console.log("You survived the night");
       return;
     }
@@ -244,7 +245,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
         animatronics[aa].position--
       } else {
         if (Math.floor(Math.random() * 10 + 1) <= animatronics[aa].level) {
-          if (Math.floor(Math.random() * 20 + 1) <= 2 && animatronics[aa].position <= animatronics[aa].path - 2) {
+          if ((Math.floor(Math.random() * 20 + 1) <= 2 ||animatronics[aa].level>10  ) && animatronics[aa].position <= animatronics[aa].path - 2) {
             animatronics[aa].position++;
           }
           animatronics[aa].position++;
@@ -254,7 +255,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
 
       if (thunder && !animatronics[aa].overcharged) {
         animatronics[aa].level++
-        if (animatronics[aa].level > 12) {
+        if (animatronics[aa].level > 15) {
           console.log(animatronics[aa].name + " got overcharded and went offline")
           animatronics[aa].overcharged = true
         }
@@ -263,7 +264,7 @@ function fnafAlike(Bd, Fd, Fx, Cd) {
 
     if (thunder) {
       energy++
-      if (Math.floor(Math.random() * 100 + 1) < 70) {
+      if (Math.floor(Math.random() * 100 + 1) < 50) {
         thunder = false;
         console.log("Thunder has stopped")
       }
