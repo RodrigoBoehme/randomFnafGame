@@ -1,0 +1,36 @@
+*{
+    text-align: center;
+}
+body{
+    background-color: rgb(21, 21, 21);
+
+    
+
+}
+.container{
+    margin: 20px;
+}
+#animatronics{
+    margin: auto;  
+    width: 300px;
+    height: 150px;
+    border-color: black;
+    border-radius: 20px;
+    background-color: rgba(128, 255, 0, 0.5);
+}
+.animaP{
+    width: 250px;
+    text-align: left;
+    margin: 25px;
+}
+
+button{
+    width: 150px;
+    height: 25px;
+    margin: 5px;
+    border-radius: 20px;
+    background-color: rgb(105, 105, 105);
+}
+button:hover{
+    background-color: rgb(45, 45, 45);
+}
