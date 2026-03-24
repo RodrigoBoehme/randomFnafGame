@@ -21,7 +21,8 @@ body{
 .animaP{
     width: 250px;
     text-align: left;
-    margin: 25px;
+    margin: 15px;
+    padding: 3px;
 }
 
 button{
