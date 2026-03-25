@@ -5,21 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TNaF</title>
     <link rel="stylesheet" href="TNaF.css" />
+    <link rel="shortcut icon" href="assets/Artemundo.ico" type="image/x-icon">
   </head>
   <body>
+    <header>
+
+
+    </header>
+    <div class="container" >
+      <img id="FlyinaPotato" src="assets/FlyinaPotatoe.png" alt="flyingPotato">
+    </div>
       <div class="container" id="animatronics">
         <p class="animaP" id="FrP">Freddy: </p>
         <p class="animaP" id="ChP">Chica: </p>
         <p class="animaP" id="BnP">Bonnie: </p>
         <p class="animaP" id="FxP">Foxy: </p>
-        <p id="result"></p>
+        <!-- <p id="result"></p> -->
       </div>
       <div class="container">
-        <button id="btnSearch">Search Animatronics</button>
-        <button id="btnDoor">Close Door</button><br/><br>
-        <button id="btnDoorSearch">Close and Search</button>
-        <button id="btnIdle">Do Nothing</button>
+        <h1 id="yourLife"></h1>
+      </div>
+      <div class="container">
+        <audio id="animatronicDoor" src="assets/animatronic-in-door.mp3" preload="auto"></audio>
+        <audio id="doorMp3" src="assets/doorSlamFnaf.mp3" preload="auto"></audio>
+        <audio id="6amMp3" src="assets/fnaf6am.mp3" preload="auto"></audio>
+        <audio id="musicBoxMp3" src="assets/fnaf1_MusicBox.mp3" preload="auto"></audio>
+        <audio id="quirkyMp3" src="assets/quirky-at-night.mp3" preload="auto"></audio>
+        <audio id="ambianceMp3" src="assets/fnafAmbience.mp3" preload="auto"></audio>
+        <audio id="jumpscare" src="assets/jumpscare.mp3" preload="auto" type="mp3"></audio>
+        <button id="btnStart">Start</button>
+        <button id="btnContinue">Continue</button><br><br>
+        <button id="btnSearch" hidden>Search Animatronics</button>
+        <button id="btnDoor" hidden>Close Door</button><br/><br>
+        <button id="btnDoorSearch" hidden>Close and Search</button>
+        <button id="btnIdle" hidden>Do Nothing</button>
     </div>
-    <script src="TNaF.js"></script>
+    <script type="module" src="TNaF.js"></script>
   </body>
+  <footer>
+
+  </footer>
 </html>
