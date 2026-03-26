@@ -93,6 +93,7 @@ async function TNaF([Bd,Fd,Fx,Cd]){
           if (energy > 1) {
             doorBtn = true;
             energy -= 2;
+            document.getElementById("doorMp3").play()
           } else {
             console.log("The door cant be closed, pray no one tries to enter");
           }
