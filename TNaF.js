@@ -63,6 +63,7 @@ async function TNaF([Bd,Fd,Fx,Cd]){
       { name: "Chica", position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
     ];
     let animaPosition=["BnP","FrP","FxP","ChP"]
+    let animaStatus=["ba","fa","fa2","ca"]
     // console.clear()
   
     console.log(
@@ -71,6 +72,14 @@ async function TNaF([Bd,Fd,Fx,Cd]){
     // readline.question("Press Any to continue")
     console.clear()
     while (true) {
+    
+      for(let i=0;i<animatronics.length;i++){
+        let state=""
+        if(animatronics[i].canAtk){state="🔴"}
+        else{state="🟢"}
+        document.getElementById(animaStatus[i]).textContent=state
+      }
+    
       console.log(
         "1) Check Positions \n2) Hold door closed \n3) Close door and check animatronics \n4) Change Fuses\nA) Nothing",
       );
@@ -144,25 +153,26 @@ async function TNaF([Bd,Fd,Fx,Cd]){
       if(cam){ 
       for (let a = 0; a < animatronics.length; a++) {
               console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]);
-              document.getElementById(animaPosition[a]).textContent=animatronics[a].name+": "+ animatronics[a].rooms[animatronics[a].position]
+              document.getElementById(animaPosition[a]).textContent=animatronics[a].rooms[animatronics[a].position]
             }
           }else{
             for (let a = 0; a < animatronics.length; a++) {
               console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]);
-              document.getElementById(animaPosition[a]).textContent=animatronics[a].name+": Loading..."
+              document.getElementById(animaPosition[a]).textContent="Loading..."
             }
           }
       if (r >= 40) {
         console.log("You survived the night");
-            document.getElementById("btnDoor").hidden=true
-            document.getElementById("btnStart").hidden=false
-            document.getElementById("btnContinue").hidden=false
-            document.getElementById("btnDoor").hidden=true
-            document.getElementById("btnSearch").hidden=true 
-            document.getElementById("btnIdle").hidden=true
-            document.getElementById("btnDoorSearch").hidden=true
+        document.getElementById("yourLife").textContent="You Survived"
+        document.getElementById("btnDoor").hidden=true
+        document.getElementById("btnStart").hidden=false
+        document.getElementById("btnContinue").hidden=false
+        document.getElementById("btnDoor").hidden=true
+        document.getElementById("btnSearch").hidden=true 
+        document.getElementById("btnIdle").hidden=true
+        document.getElementById("btnDoorSearch").hidden=true
 
-        return 1;
+        return true;
       }
       //Useless in Html version, may end up active in console tho
       if (dev) {
@@ -214,7 +224,7 @@ async function TNaF([Bd,Fd,Fx,Cd]){
          //This one kinda important
          
           if (Math.floor(Math.random() * 10 + 1) <= animatronics[aa].level) {
-            console.clear()
+            // console.clear()
             document.getElementById("yourLife").textContent="You got jumpscare by " + animatronics[aa].name
             console.log("You got jumpscare by " + animatronics[aa].name);
             document.getElementById("jumpscare").play()
@@ -227,14 +237,15 @@ async function TNaF([Bd,Fd,Fx,Cd]){
             document.getElementById("btnIdle").hidden=true
             document.getElementById("btnDoorSearch").hidden=true
 
-            return 0;
+            return false;
           }
         } else if (
           animatronics[aa].position >= animatronics[aa].path &&
           animatronics[aa].canAtk
         ) {
           console.log(
-            animatronics[aa].name + " was at the door, but it went back!",
+            animatronics[aa].name + " was at the door, but it went back!"
+
           );
           animatronics[aa].position = 1;
           animatronics[aa].canAtk = false;
@@ -286,6 +297,8 @@ async function TNaF([Bd,Fd,Fx,Cd]){
 main();
 async function fnafAlikeGame() {
   console.clear()
+  let diff=0
+ 
 
 
   while (true) {
@@ -294,21 +307,19 @@ async function fnafAlikeGame() {
      // let option = readline.question("Input number: ");
     const option=await waitForButtonClick(["btnStart","btnContinue"])
     document.getElementById("yourLife").textContent=""
-    let diff=0
     const nights=[[3, 1, 2, 1],[2, 5, 3, 4],[4,6,4,5],[7,2,1,6],[8,9,8,7]]
 
 
     switch (option) {
       case "btnStart":
         diff=0
-        TNaF(nights[diff])
+        if(TNaF(nights[diff])){diff++}
         break;
       case "btnContinue":
         if(diff>4){
           diff=4
-        }else{
-        diff+=TNaF(nights[diff])
         }
+        if(TNaF(nights[diff])){diff++}
 
 
       break;

@@ -16,10 +16,10 @@
       <img id="FlyinaPotato" src="assets/FlyinaPotatoe.png" alt="flyingPotato">
     </div>
       <div class="container" id="animatronics">
-        <p class="animaP" id="FrP">Freddy: </p>
-        <p class="animaP" id="ChP">Chica: </p>
-        <p class="animaP" id="BnP">Bonnie: </p>
-        <p class="animaP" id="FxP">Foxy: </p>
+        <p style="color: brown;"><span class="attak" id="fa">🔴</span> Freddy: <Span  class="animaP" id="FrP"></Span></p>
+        <p style="color: rgb(161, 161, 0);"><span class="attak" id="ca">🔴</span>Chica: <span class="animaP" id="ChP"></span></p>
+        <p style="color: #703BE7;"><span class="attak" id="ba">🔴</span>Bonnie: <span class="animaP" id="BnP"></span> </p>
+        <p style="color: red;"><span class="attak" id="fa2">🔴</span>Foxy: <span class="animaP" id="FxP"></span></p>
         <!-- <p id="result"></p> -->
       </div>
       <div class="container">
@@ -41,7 +41,15 @@
         <button id="btnIdle" hidden>Do Nothing</button>
     </div>
     <script type="module" src="TNaF.js"></script>
+    <script>
+  document.addEventListener('contextmenu', function(event) {
+    event.preventDefault(); // Prevents the default context menu
+    // Optional: add a custom message or action here
+  });
+</script>
+
   </body>
+
   <footer>
 
   </footer>
