@@ -24,28 +24,42 @@ function waitForButtonClick(buttonIds) {
     });
 }
 
+const jumps=new Audio("assets/jumpscare.mp3")
+const sixAM=new Audio("assets/fnaf6am.mp3")
+const quirk=new Audio("assets/quirky-at-night.mp3")
+const doorAnima=new Audio("assets/animatronic-in-door.mp3")
+const musicBox=new Audio("assets/fnaf1_MusicBox.mp3")
+const ambiance=new Audio("assets/fnafAmbience.mp3")
+const doorClose=new Audio("assets/doorSlamFnaf.mp3")
+
+async function soundInstance(audioToBePlayed){
+
+  let newInstance=audioToBePlayed.cloneNode(true);
+  newInstance.play()
+
+}
+
+
+//Swaps button visibility from a selected group
+function buttonSwapTrigger() {
+  let buttons=["btnStart","btnContinue","btnDoor","btnIdle","btnDoorSearch","btnSearch"]  
+ 
+  for(let i=0;i<buttons.length;i++){
+    document.getElementById(buttons[i]).hidden=!document.getElementById(buttons[i]).hidden
+  }
+ 
+}
+
 async function main() {
   // Wait until user clicks a button
-
-  
   fnafAlikeGame()
   }
 
 
 async function TNaF([Bd,Fd,Fx,Cd]){
-  // Continue after click
   document.getElementById("animatronics").style.backgroundColor="rgba(128, 255, 0, 0.5)"
-  document.getElementById("btnStart").hidden=true
-  document.getElementById("btnContinue").hidden=true
-  document.getElementById("btnDoor").hidden=false
-  document.getElementById("btnSearch").hidden=false 
-  document.getElementById("btnDoor").hidden=false
-  document.getElementById("btnIdle").hidden=false
-  document.getElementById("btnDoorSearch").hidden=false
-    // let Bd=5
-    // let Fd=5
-    // let Fx=5
-    // let Cd=5
+  buttonSwapTrigger()
+    
     let r = 0;
     let spareFuses = 3;
     let cam=false
@@ -62,22 +76,26 @@ async function TNaF([Bd,Fd,Fx,Cd]){
       { name: "Foxy", position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Pirate Cove", "Corridor", "Security Door"] },
       { name: "Chica", position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
     ];
+    //Arrays so the functions that updates positions dont change the wrong animatronic
     let animaPosition=["BnP","FrP","FxP","ChP"]
     let animaStatus=["ba","fa","fa2","ca"]
-    // console.clear()
   
-    console.log(
-      "A game inspired in Five nights at Freddys, you have limited \n power only one door to worry and the same 4 animatronics to\n worry about, winning condition you ask? Just survive for 40 rounds",
-    );
-    // readline.question("Press Any to continue")
     console.clear()
     while (true) {
     
       for(let i=0;i<animatronics.length;i++){
         let state=""
-        if(animatronics[i].canAtk){state="🔴"}
+        if(animatronics[i].overcharged){state="⚫"}
+        else if(animatronics[i].canAtk){state="🔴"}
         else{state="🟢"}
         document.getElementById(animaStatus[i]).textContent=state
+      }
+      if(fuseStatus){
+        document.getElementById("fuseState").textContent="🟢"
+      }else if(emergencyFuse){
+        document.getElementById("fuseState").textContent="🟡"
+      }else{
+        document.getElementById("fuseState").textContent="🔴"
       }
     
       console.log(
@@ -85,6 +103,9 @@ async function TNaF([Bd,Fd,Fx,Cd]){
       );
   
     //   let opt = readline.questionInt("What are your action: ");
+    if(Math.floor(Math.random()*10)>7){
+      ambiance.play()
+    }
     const clickedId = await waitForButtonClick(["btnSearch", "btnDoor", "btnIdle","btnDoorSearch"]);
 
     console.clear();
@@ -97,12 +118,11 @@ async function TNaF([Bd,Fd,Fx,Cd]){
             console.log("No energy to search them, Dangers lurk in the dark");
           }
           break;
-  
         case "btnDoor":
           if (energy > 1) {
             doorBtn = true;
             energy -= 2;
-            document.getElementById("doorMp3").play()
+          soundInstance(doorClose)
           } else {
             console.log("The door cant be closed, pray no one tries to enter");
           }
@@ -136,15 +156,6 @@ async function TNaF([Bd,Fd,Fx,Cd]){
           console.log("Nothing, energy saved");
           break;
   
-        case 1987:
-          console.log("This is an easter egg, the game ends!");
-          return;
-  
-        case 2709:
-          console.error("DevMode")
-          dev = !dev
-  
-          break;
   
       }
       for (let ac = 0; ac < animatronics.length; ac++) {
@@ -163,15 +174,9 @@ async function TNaF([Bd,Fd,Fx,Cd]){
           }
       if (r >= 40) {
         console.log("You survived the night");
+        sixAM.play()
         document.getElementById("yourLife").textContent="You Survived"
-        document.getElementById("btnDoor").hidden=true
-        document.getElementById("btnStart").hidden=false
-        document.getElementById("btnContinue").hidden=false
-        document.getElementById("btnDoor").hidden=true
-        document.getElementById("btnSearch").hidden=true 
-        document.getElementById("btnIdle").hidden=true
-        document.getElementById("btnDoorSearch").hidden=true
-
+        buttonSwapTrigger()
         return true;
       }
       //Useless in Html version, may end up active in console tho
@@ -199,7 +204,7 @@ async function TNaF([Bd,Fd,Fx,Cd]){
         }
       }
       if (thunder && door() && fuseStatus) {
-        if (Math.floor(Math.random() * 100 + 1) < 10) {
+        if (Math.floor(Math.random() * 100 + 1) < 15) {
           fuseStatus = false
           console.log("A thunder blew the fuse")
         }
@@ -209,6 +214,7 @@ async function TNaF([Bd,Fd,Fx,Cd]){
           console.log("Emergency fuse destroyed")
         }
       }
+
 
       //Animatronics actions
       for (let aa = 0; aa < animatronics.length; aa++) {
@@ -227,16 +233,10 @@ async function TNaF([Bd,Fd,Fx,Cd]){
             // console.clear()
             document.getElementById("yourLife").textContent="You got jumpscare by " + animatronics[aa].name
             console.log("You got jumpscare by " + animatronics[aa].name);
-            document.getElementById("jumpscare").play()
+            jumps.play()
             document.getElementById("animatronics").style.backgroundColor="rgba(99, 5, 5, 0.5)"
-            document.getElementById("btnDoor").hidden=true
-            document.getElementById("btnStart").hidden=false
-            document.getElementById("btnContinue").hidden=false
-            document.getElementById("btnDoor").hidden=true
-            document.getElementById("btnSearch").hidden=true 
-            document.getElementById("btnIdle").hidden=true
-            document.getElementById("btnDoorSearch").hidden=true
 
+            buttonSwapTrigger( )
             return false;
           }
         } else if (
@@ -255,7 +255,7 @@ async function TNaF([Bd,Fd,Fx,Cd]){
         ) {
           animatronics[aa].canAtk = true;
           console.log("Someones At the door")
-          document.getElementById("animatronicDoor").play()
+          soundInstance(doorAnima)
 
         } else if (animatronics[aa].position > 1 && Math.floor(Math.random() * 100 + 1) < 15) {
           if (animatronics[aa].position > 2 && Math.floor(Math.random() * 100 + 1) < 10) {
@@ -313,9 +313,11 @@ async function fnafAlikeGame() {
     switch (option) {
       case "btnStart":
         diff=0
+        quirk.play()
         if(TNaF(nights[diff])){diff++}
         break;
       case "btnContinue":
+        if(diff===0){        quirk.play()}
         if(diff>4){
           diff=4
         }
