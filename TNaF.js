@@ -155,8 +155,6 @@ async function TNaF([Bd,Fd,Fx,Cd]){
         default:
           console.log("Nothing, energy saved");
           break;
-  
-  
       }
       for (let ac = 0; ac < animatronics.length; ac++) {
   
@@ -317,7 +315,7 @@ async function fnafAlikeGame() {
         if(TNaF(nights[diff])){diff++}
         break;
       case "btnContinue":
-        if(diff===0){        quirk.play()}
+        if(diff===0){quirk.play()}
         if(diff>4){
           diff=4
         }
