@@ -32,15 +32,19 @@ function btnDoor(){
   
 function Start(){
     i=0
+    console.clear()
     document.getElementById("Starter").hidden="true"
     const timer1=setInterval(() =>  {console.log("Iteration: " + i);i++;}, 200);
     
     function endTimers(){
-        clearTimeout(timer1)
-        clearTimeout(timer2)
+        musicBox.play()
+        clearTimeout(timer1)//Timer
+        clearTimeout(timer2)//Timer for stopping game
+        clearTimeout(timer3)//Timer for end game
+        document.getElementById("Starter").hidden=false
         return
     }
-    const timer2=setInterval(()=>{if(mRnd()>=10){endTimers()};},1000)
+    const timer2=setInterval(()=>{if(mRnd()>=15){endTimers()};},1500)
     // Add animatronic timers
     // ex:. const Freddy=setInterval(()=>{animatronics[1]},4010)
 
@@ -51,14 +55,16 @@ function Start(){
 
 
 
-    setTimeout(()=>{//Ends the game Win condition
+    const timer3=setTimeout(()=>{//Ends the game Win condition
         
         //ToDo, end all timers here
-        clearTimeout(timer1);document.getElementById("Starter").hidden=false
+        clearTimeout(timer1);
+        clearTimeout(timer2)//Timer for stopping game
+        document.getElementById("Starter").hidden=false
         sixAM.play()
 
     
-    },12000)//Time to end in ms
+    },5000)//Time to end in ms
         
 }
 
