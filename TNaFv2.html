@@ -9,12 +9,27 @@
 </head>
 
 <body>
+    <button class="floating" id="Starter" onclick="Start()">Start</button>
+    <button class="floating" id="btnDoor" onclick="btnDoor()"></button>
+
+    <button class="floating" id="btnNose"></button>
+
     <main>
-        <button id="Starter" onclick="Start()">Start</button>
-        <button id="btnDoor" onclick="btnDoor()"></button>
-        <button id="btnNose"></button>
+        <div id="animatronics" class="container">
+            <p style="text-align: right; margin: 0; padding-bottom: 0;">Door<span id="fuseState">⚫</span> </p>
+            <p style="color: brown;"><span class="attak" id="fa">⚫</span> Freddy: <Span  class="animaP" id="FrP"></Span></p>
+            <p style="color: rgb(161, 161, 0);"><span class="attak" id="ca">⚫</span>Chica: <span class="animaP" id="ChP"></span></p>
+            <p style="color: #703BE7;"><span class="attak" id="ba">⚫</span>Bonnie: <span class="animaP" id="BnP"></span> </p>
+            <p style="color: red;"><span class="attak" id="fa2">⚫</span>Foxy: <span class="animaP" id="FxP"></span></p>
+
+            <div id="camera">
+            <p id="powerDisplay">Power: <span id="power">100%</span></p>
+            <button id="btnCam" onclick="checkAnima()">Cam</button>
+            </div>
+        </div>
+        
     </main>
-    <script src="TNaFv2.js" />
+    <script src="TNaFv2.js"/>
 
 </body>
 
