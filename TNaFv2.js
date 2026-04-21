@@ -31,18 +31,21 @@ const CamClose=new Audio("assets/camera-close.mp3")
 const bonJs=new Audio("assets/faaah.mp3")
 const chicJs=new Audio("assets/fnafJSChica.mp3")
 const greg=new Audio("assets/gregory-what-the-fazballs.mp3")
+const ring=new Audio("assets/fnafRingtone.mp3")
+
 
 
 
 //Animatronics
 let animatronics = [
-      { name: "Bonnie",jumpscare:bonJs , position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
-      { name: "Freddy", jumpscare:greg,position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
-      { name: "Foxy",jumpscare:jumps, position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Pirate Cove", "Corridor", "Security Door"] },
-      { name: "Chica",jumpscare:chicJs, position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
+      { name: "Bonnie",atak:"ba",jumpscare:bonJs , position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
+      { name: "Freddy", atak:"fa",jumpscare:greg,position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
+      { name: "Foxy",atak:"fa2",jumpscare:jumps, position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Pirate Cove", "Corridor", "Security Door"] },
+      { name: "Chica",atak:"ca",jumpscare:chicJs, position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
 ]
 
 //Main Game:
+
 
 
   
@@ -53,6 +56,7 @@ function Start(){
         animatronics[i].position=0
         
     }
+    quirk.play()
     jumpscare=false
     // i=0
     console.clear()
@@ -68,6 +72,7 @@ function Start(){
         clearTimeout(Bonnoe)
         clearTimeout(Foxyaar)
         clearTimeout(ChicaBloopers)
+        clearTimeout(ambianSound)
         document.getElementById("Starter").hidden=false
         return
     }
@@ -75,10 +80,11 @@ function Start(){
     //const timer2=setInterval(()=>{if(mRnd()>=15){endTimers()};},1500)
     // Add animatronic timers
     // ex:. const Freddy=setInterval(()=>{animatronics[1]},4010)
-    const Fweddy=setInterval(()=>{if(animaActions(animatronics[1])){endTimers()}},1010)
-    const Bonnoe=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},1010)
-    const Foxyaar=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},1010)
-    const ChicaBloopers=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},1010)
+    const Fweddy=setInterval(()=>{if(animaActions(animatronics[1])){endTimers()}},650)
+    const Bonnoe=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},570)
+    const Foxyaar=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},590)
+    const ChicaBloopers=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},610)
+    const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},10000)
 
     // ToDo make a way to lose?
 
@@ -99,8 +105,14 @@ function Start(){
         sixAM.play()
 
     
-    },300000)//Time to end in ms      
+    },180000)//Time to end in ms      
 }
+//Button functions
+
+function btnNose(){
+    ring.play()
+}
+
 //Function for closing the door
 function btnDoor(){
     if(!door){
@@ -112,7 +124,7 @@ function btnDoor(){
             //ToDo Door Logic
             document.getElementById("btnDoor").style.background="grey"
             door=false
-        },2000)
+        },5000)
     }
 }
 //Function to check animatronics position
@@ -120,13 +132,14 @@ function checkAnima(){
     if(!Cam){
     soundInstance(CamOpen)
     Cam=true
-    for(let i=0;i<animatronics.length;i++){
-        let state=""
-        if(animatronics[i].overcharged){state="⚫"}
-        else if(animatronics[i].canAtk){state="🔴"}
-        else{state="🟢"}
-        document.getElementById(animaStatus[i]).textContent=state
-        }
+    // for(let i=0;i<animatronics.length;i++){
+    //     let state=""
+    //     if(animatronics[i].overcharged){state="⚫"}
+    //     else if(animatronics[i].canAtk){state="🔴"}
+    //     else{state="🟢"}
+    //     document.getElementById(animaStatus[i]).textContent=state
+    //     }
+
         for(let a = 0; a < animatronics.length; a++) {
             console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]);
             document.getElementById(animaPosition[a]).textContent=animatronics[a].rooms[animatronics[a].position]
@@ -146,6 +159,7 @@ function checkAnima(){
 function animaActions(animatronic){
     if(animatronic.position<animatronic.path){
         animatronic.canAtk=false
+        document.getElementById(animatronic.atak).textContent="🟢"
     }
     if(animatronic.level<=mRnd()){
         if(animatronic.position>=animatronic.path&&mRnd()<15&&!door&&animatronic.canAtk){ //Animatronic at door and door open
@@ -158,10 +172,13 @@ function animaActions(animatronic){
             }
         }else if(animatronic.position>=animatronic.path&&mRnd()<16&&animatronic.canAtk){ //Animatronic at door but not open
             animatronic.position=1
+
             
         }
         else if(animatronic.position>=animatronic.path){
             animatronic.canAtk=true
+            document.getElementById(animatronic.atak).textContent="🔴"
+            doorAnima.play()
 
         }else if(animatronic.position<animatronic.path&&mRnd()>=4){
             animatronic.position++

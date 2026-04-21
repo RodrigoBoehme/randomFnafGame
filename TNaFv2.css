@@ -4,6 +4,7 @@
 body{
     max-width: 1dvh;
     max-height: 1dvh;
+    background-color: rgb(46, 46, 46);
 }
 .floating{
     position:fixed;
