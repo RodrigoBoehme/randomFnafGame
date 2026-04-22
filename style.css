@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+body{
+    width: 100%;
+    padding: auto;
+}
+.container{
+    width: 40%;
+    height: 400px;
+    background-color: green;
+    margin-left: 30%;
+    margin-right: 30%;
+    color: aliceblue;
+    flex-wrap: wrap;
+
+    
+}
+a{
+
+    color: blanchedalmond;
+    text-decoration: none;
+}
