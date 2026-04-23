@@ -50,7 +50,7 @@ let animatronics = [
 
 
   
-export function Start(){
+async function start(){
     for(let i=0;i<animatronics.length;i++){
         animatronics[i].level=20
         animatronics[i].defaultLvl=20
@@ -110,12 +110,12 @@ export function Start(){
 }
 //Button functions
 
-export function btnNose(){
+async function btnNose(){
     ring.play()
 }
 
 //Function for closing the door
-export function btnDoor(){
+async function btnDoor(){
     if(!door){
         document.getElementById("btnDoor").style.background="Green"
         soundInstance(doorClose)
@@ -129,7 +129,7 @@ export function btnDoor(){
     }
 }
 //Function to check animatronics position
-export function checkAnima(){
+async function checkAnima(){
     if(!Cam){
     soundInstance(CamOpen)
     Cam=true
@@ -156,8 +156,8 @@ export function checkAnima(){
     }},1500)
     }
 }
-
-function animaActions(animatronic){
+ 
+async function animaActions(animatronic){
     if(animatronic.position<animatronic.path){
         animatronic.canAtk=false
         document.getElementById(animatronic.atak).textContent="🟢"
