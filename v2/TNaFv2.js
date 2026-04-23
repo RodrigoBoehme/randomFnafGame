@@ -1,3 +1,4 @@
+
 let playable=true
 let timer=false
 let jumpscare=false
