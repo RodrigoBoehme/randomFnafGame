@@ -1,4 +1,3 @@
-
 let playable=true
 let timer=false
 let jumpscare=false
@@ -194,5 +193,4 @@ async function animaActions(animatronic){
 // let Bd=0,Fd=0,Fx=0,Cd=0//PlaceHolder Values
 
 let animaPosition=["BnP","FrP","FxP","ChP"]
-let animaStatus=["ba","fa","fa2","ca"]
   
