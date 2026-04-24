@@ -49,7 +49,7 @@ let animatronics = [
 
 
   
-async function start(){
+function Start(){
     for(let i=0;i<animatronics.length;i++){
         animatronics[i].level=20
         animatronics[i].defaultLvl=20
