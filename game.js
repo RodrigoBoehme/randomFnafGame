@@ -128,7 +128,7 @@ async function btnDoor(){
     }
 }
 //Function to check animatronics position
-async function checkAnima(){
+function checkAnima(){
     if(!Cam){
     soundInstance(CamOpen)
     Cam=true
@@ -156,7 +156,7 @@ async function checkAnima(){
     }
 }
  
-async function animaActions(animatronic){
+function animaActions(animatronic){
     if(animatronic.position<animatronic.path){
         animatronic.canAtk=false
         document.getElementById(animatronic.atak).textContent="🟢"
