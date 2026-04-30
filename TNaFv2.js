@@ -69,9 +69,6 @@ function Start(){
         // clearTimeout(timer2)//Timer for stopping game
         clearTimeout(game)//Timer for end game
         clearTimeout(Fweddy)
-        clearTimeout(Bonnoe)
-        clearTimeout(Foxyaar)
-        clearTimeout(ChicaBloopers)
         clearTimeout(ambianSound)
         document.getElementById("Starter").hidden=false
         return
@@ -80,10 +77,7 @@ function Start(){
     //const timer2=setInterval(()=>{if(mRnd()>=15){endTimers()};},1500)
     // Add animatronic timers
     // ex:. const Freddy=setInterval(()=>{animatronics[1]},4010)
-    const Fweddy=setInterval(()=>{if(animaActions(animatronics[1])){endTimers()}},650)
-    const Bonnoe=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},570)
-    const Foxyaar=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},590)
-    const ChicaBloopers=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},610)
+    const Fweddy=setInterval(()=>{for(let i=0;i<animatronics.length;i++){animaActions(animatronics[i])}},1650)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},10000)
 
     // ToDo make a way to lose?
@@ -120,13 +114,14 @@ async function btnDoor(){
         soundInstance(doorClose)
 
         door=true
-        setTimeout(()=>{
             //ToDo Door Logic
-            document.getElementById("btnDoor").style.background="grey"
-            door=false
-        },5000)
+            
+    }else{
+        document.getElementById("btnDoor").style.background="grey"
+        door=false
     }
 }
+
 //Function to check animatronics position
 function checkAnima(){
     if(!Cam){
