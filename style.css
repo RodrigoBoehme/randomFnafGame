@@ -5,18 +5,18 @@
 }
 body{
     width: 100%;
+    height: 100%;
     padding: auto;
 }
 .container{
+    margin-top: 10%;
     width: 40%;
-    height: 400px;
+    height: 300px;
     background-color: green;
     margin-left: 30%;
     margin-right: 30%;
     color: aliceblue;
-    flex-wrap: wrap;
-
-    
+    margin-bottom: 13%;
 }
 a{
 
@@ -24,5 +24,10 @@ a{
     text-decoration: none;
 }
 img{
-    max-width: fit-content;
+    max-width: 400px;
+}
+footer{
+    width: 100%;
+    height: 32px;
+    background-color: darkgreen;
 }
