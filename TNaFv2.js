@@ -4,6 +4,7 @@ let jumpscare=false
 let door=false
 let Cam=false
 function mRnd(){return Math.floor(Math.random()*20+1) }
+let power=100
 Bd=0
 Fd=0
 Fx=0
@@ -34,13 +35,24 @@ const greg=new Audio("assets/gregory-what-the-fazballs.mp3")
 const ring=new Audio("assets/fnafRingtone.mp3")
 
 
-
-
+function updtPwr(){
+    if(power>0){
+    power--
+    document.getElementById("power").textContent=power
+    }
+}
+function thunder(){
+    // ToDo: add thunder sound
+    power+=5
+    for(let i=0;i<animatronics.length;i++){
+        animatronics[i].level++
+    }
+}
 //Animatronics
 let animatronics = [
       { name: "Bonnie",atak:"ba",jumpscare:bonJs , position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
       { name: "Freddy", atak:"fa",jumpscare:greg,position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
-      { name: "Foxy",atak:"fa2",jumpscare:jumps, position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Pirate Cove", "Corridor", "Security Door"] },
+      { name: "Foxy",atak:"fa2",jumpscare:jumps, position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove 0", "Pirate Cove 1", "Pirate Cove 2", "Corridor", "Security Door"] },
       { name: "Chica",atak:"ca",jumpscare:chicJs, position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
 ]
 
@@ -51,11 +63,12 @@ let animatronics = [
   
 function Start(){
     for(let i=0;i<animatronics.length;i++){
-        animatronics[i].level=20
-        animatronics[i].defaultLvl=20
+        animatronics[i].level=10
+        animatronics[i].defaultLvl=10
         animatronics[i].position=0
         
     }
+    power=100
     quirk.play()
     jumpscare=false
     // i=0
@@ -69,7 +82,12 @@ function Start(){
         // clearTimeout(timer2)//Timer for stopping game
         clearTimeout(game)//Timer for end game
         clearTimeout(Fweddy)
+        clearTimeout(foxYarr)
+        clearTimeout(Chinken)
+        clearTimeout(Bnuy)
         clearTimeout(ambianSound)
+        clearTimeout(storm)
+        clearTimeout(Pwr)
         document.getElementById("Starter").hidden=false
         return
     }
@@ -77,8 +95,13 @@ function Start(){
     //const timer2=setInterval(()=>{if(mRnd()>=15){endTimers()};},1500)
     // Add animatronic timers
     // ex:. const Freddy=setInterval(()=>{animatronics[1]},4010)
-    const Fweddy=setInterval(()=>{for(let i=0;i<animatronics.length;i++){animaActions(animatronics[i])}},1650)
+    const Fweddy=setInterval(()=>{if(animaActions(animatronics[1])){endTimers()}},4150)
+    const Bnuy=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},3940)
+    const Chinken=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},4210)
+    const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
+    const Pwr=setInterval(()=>{updtPwr()},1800)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},10000)
+    const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=3){thunder()}},1234)
 
     // ToDo make a way to lose?
 
@@ -152,12 +175,9 @@ function checkAnima(){
 }
  
 function animaActions(animatronic){
-    if(animatronic.position<animatronic.path){
-        animatronic.canAtk=false
-        document.getElementById(animatronic.atak).textContent="🟢"
-    }
-    if(animatronic.level<=mRnd()){
-        if(animatronic.position>=animatronic.path&&mRnd()<15&&!door&&animatronic.canAtk){ //Animatronic at door and door open
+    
+    // if(animatronic.level>=mRnd()){
+        if(animatronic.position>=animatronic.path&&!door&&animatronic.canAtk){ //Animatronic at door and door open
             if(!jumpscare){
                 jumpscare=true
                 animatronic.jumpscare.play()
@@ -165,12 +185,15 @@ function animaActions(animatronic){
 
                 //ToDo Jumpscare?
             }
+
         }else if(animatronic.position>=animatronic.path&&mRnd()<16&&animatronic.canAtk){ //Animatronic at door but not open
             animatronic.position=1
 
             
         }
-        else if(animatronic.position>=animatronic.path){
+        else if(animatronic.level>=mRnd()){
+            
+        if(animatronic.position>=animatronic.path){
             animatronic.canAtk=true
             document.getElementById(animatronic.atak).textContent="🔴"
             doorAnima.play()
@@ -180,6 +203,10 @@ function animaActions(animatronic){
         }else if(animatronic.position>1&&mRnd()>=18){
             animatronic.position--
         }
+    }
+    if(animatronic.position<animatronic.path){
+        animatronic.canAtk=false
+        document.getElementById(animatronic.atak).textContent="🟢"
     }
     return false
 
