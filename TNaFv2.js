@@ -5,12 +5,11 @@ let door=false
 let Cam=false
 function mRnd(){return Math.floor(Math.random()*20+1) }
 let power=100
-Bd=0
-Fd=0
-Fx=0
-Cd=0
-
-
+let currentNight=0
+let Bd=0
+let Fx=0
+let Fd=0
+let Cd=0
 
 //Audios:
 async function soundInstance(audioToBePlayed){
@@ -33,7 +32,9 @@ const bonJs=new Audio("assets/faaah.mp3")
 const chicJs=new Audio("assets/fnafJSChica.mp3")
 const greg=new Audio("assets/gregory-what-the-fazballs.mp3")
 const ring=new Audio("assets/fnafRingtone.mp3")
-
+const thunder1=new Audio("assets/thunder-sfx.mp3")
+const thunder2=new Audio("assets/thunder-shock.mp3")
+const thunder3=new Audio("assets/thunder.mp3")
 
 function updtPwr(){
     if(power>0){
@@ -43,6 +44,7 @@ function updtPwr(){
 }
 function thunder(){
     // ToDo: add thunder sound
+    Math.random() < 0.5 ? thunder2.play() : thunder1.play();
     power+=5
     for(let i=0;i<animatronics.length;i++){
         animatronics[i].level++
@@ -56,20 +58,27 @@ let animatronics = [
       { name: "Chica",atak:"ca",jumpscare:chicJs, position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
 ]
 
+function setAnimaLvl(arrayLvls){
+    for(let i=0;i<animatronics.length;i++){
+        animatronics[i].level=arrayLvls[i]
+        animatronics[i].defaultLvl=arrayLvls[i]
+        animatronics[i].position=0   
+    }
+}
+let animaLvlPresets=[[0,0,0,0],[3,1,2,3],[7,3,6,4],[6,7,8,7],[13,12,8,15]]
+
 //Main Game:
 
 
 
   
 function Start(){
-    for(let i=0;i<animatronics.length;i++){
-        animatronics[i].level=10
-        animatronics[i].defaultLvl=10
-        animatronics[i].position=0
-        
-    }
+    setAnimaLvl(animaLvlPresets[currentNight])
+    
     power=100
+    if(currentNight==0){
     quirk.play()
+    }
     jumpscare=false
     // i=0
     console.clear()
@@ -117,7 +126,9 @@ function Start(){
         //ToDo, end all timers here
         //clearTimeout(timer1);
         //clearTimeout(timer2)//Timer for stopping game
-
+        if(currentNight<animaLvlPresets.length-2){
+        currentNight++
+        }
         endTimers()
         sixAM.play()
 
