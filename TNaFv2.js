@@ -190,7 +190,7 @@ function checkAnima(){
  
 function animaActions(animatronic){
     
-    if(!overcharged){
+    if(!animatronic.overcharged){
     // if(animatronic.level>=mRnd()){
         if(animatronic.level>25){
             animatronic.overcharged=true
