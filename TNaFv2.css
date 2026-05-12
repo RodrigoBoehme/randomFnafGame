@@ -59,3 +59,9 @@ body{
     text-shadow:-1px -1px 0 white,1px -1px 0 white,-1px  1px 0 white,1px  1px 0 white; 
 
 }
+.p2{
+    display: inline; /* or inline */
+    margin: 0 70% 0 0;    /* optional spacing between them */
+    max-width: 50%;
+    vertical-align: top;   /* align them nicely */
+}

@@ -10,6 +10,7 @@ let Bd=0
 let Fx=0
 let Fd=0
 let Cd=0
+let arrayTimeTags=["12pm","01am","02am","03am","04am","05am","06am"]
 
 //Audios:
 async function soundInstance(audioToBePlayed){
@@ -66,6 +67,8 @@ function setAnimaLvl(arrayLvls){
     }
 }
 let animaLvlPresets=[[0,0,0,0],[3,1,2,3],[7,3,6,4],[6,7,8,7],[13,12,8,15]]
+
+
 
 //Main Game:
 
@@ -187,7 +190,13 @@ function checkAnima(){
  
 function animaActions(animatronic){
     
+    if(!overcharged){
     // if(animatronic.level>=mRnd()){
+        if(animatronic.level>25){
+            animatronic.overcharged=true
+            document.getElementById(animatronic.atak).textContent="⚫"
+            return false
+        }
         if(animatronic.position>=animatronic.path&&!door&&animatronic.canAtk){ //Animatronic at door and door open
             if(!jumpscare){
                 jumpscare=true
@@ -218,6 +227,13 @@ function animaActions(animatronic){
     if(animatronic.position<animatronic.path){
         animatronic.canAtk=false
         document.getElementById(animatronic.atak).textContent="🟢"
+    }
+    }else{
+        if(animatronic.level==animatronic.defaultLvl){
+            animatronic.overcharged=false
+        }else{
+            animatronic.level--
+        }
     }
     return false
 
