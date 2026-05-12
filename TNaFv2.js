@@ -11,6 +11,7 @@ let Fx=0
 let Fd=0
 let Cd=0
 let arrayTimeTags=["12pm","01am","02am","03am","04am","05am","06am"]
+let currentTime=0
 
 //Audios:
 async function soundInstance(audioToBePlayed){
@@ -48,7 +49,7 @@ function thunder(){
     Math.random() < 0.5 ? thunder2.play() : thunder1.play();
     power+=5
     for(let i=0;i<animatronics.length;i++){
-        animatronics[i].level++
+        animatronics[i].level+=2
     }
 }
 //Animatronics
@@ -69,7 +70,11 @@ function setAnimaLvl(arrayLvls){
 let animaLvlPresets=[[0,0,0,0],[3,1,2,3],[7,3,6,4],[6,7,8,7],[13,12,8,15]]
 
 
+function setTimer(){
+    currentTime++    
+    document.getElementById("time").textContent=arrayTimeTags[currentTime]
 
+}
 //Main Game:
 
 
@@ -86,9 +91,12 @@ function Start(){
     // i=0
     console.clear()
     document.getElementById("Starter").hidden="true"
+    currentTime=0
+    document.getElementById("time").textContent=arrayTimeTags[currentTime]
     // const timer1=setInterval(() =>  {console.log("Iteration: " + i);i++;}, 200);
     
     function endTimers(){
+        
         // musicBox.play()
         // clearTimeout(timer1)//Timer
         // clearTimeout(timer2)//Timer for stopping game
@@ -100,6 +108,7 @@ function Start(){
         clearTimeout(ambianSound)
         clearTimeout(storm)
         clearTimeout(Pwr)
+        clearTimeout(timeChanger)
         document.getElementById("Starter").hidden=false
         return
     }
@@ -114,6 +123,7 @@ function Start(){
     const Pwr=setInterval(()=>{updtPwr()},1800)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},10000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=3){thunder()}},1234)
+    const timeChanger=setInterval(()=>{setTimer()},30000)
 
     // ToDo make a way to lose?
 
