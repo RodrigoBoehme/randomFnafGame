@@ -40,8 +40,11 @@ const thunder3=new Audio("assets/thunder.mp3")
 
 function updtPwr(){
     if(power>0){
+    if(door){power--}
     power--
     document.getElementById("power").textContent=power
+    }if(door&&power==0){
+        btnDoor()
     }
 }
 function thunder(){
@@ -120,9 +123,9 @@ function Start(){
     const Bnuy=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},3940)
     const Chinken=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},4210)
     const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
-    const Pwr=setInterval(()=>{updtPwr()},1800)
+    const Pwr=setInterval(()=>{updtPwr()},2400)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},10000)
-    const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=3){thunder()}},1234)
+    const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){thunder()}},1234)
     const timeChanger=setInterval(()=>{setTimer()},30000)
 
     // ToDo make a way to lose?
@@ -156,7 +159,8 @@ async function btnNose(){
 
 //Function for closing the door
 async function btnDoor(){
-    if(!door){
+    
+    if(!door &&power>0){
         document.getElementById("btnDoor").style.background="Green"
         soundInstance(doorClose)
 
@@ -171,7 +175,8 @@ async function btnDoor(){
 
 //Function to check animatronics position
 function checkAnima(){
-    if(!Cam){
+    if(!Cam &&power>0){
+    power--
     soundInstance(CamOpen)
     Cam=true
     // for(let i=0;i<animatronics.length;i++){
