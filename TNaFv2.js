@@ -12,6 +12,26 @@ let Fd=0
 let Cd=0
 let arrayTimeTags=["12pm","01am","02am","03am","04am","05am","06am"]
 let currentTime=0
+let gameOn=false
+
+document.addEventListener("keydown", (event) => {
+const key = event.key; // Get the key pressed
+if (key === "Enter") {
+console.log("Enter key was pressed!");
+} else if (event.ctrlKey && key === "s") {
+event.preventDefault(); // Prevent default browser behavior
+console.log("Ctrl + S was pressed!");
+}else if(key==="d"){
+    checkAnima()
+}else if(key==="a"){
+    btnDoor()
+}else if(key==="e"){
+    btnNose()
+}else if(key==="q" &&!gameOn){
+    Start()
+}
+
+});
 
 //Audios:
 async function soundInstance(audioToBePlayed){
@@ -49,10 +69,11 @@ function updtPwr(){
 }
 function thunder(){
     // ToDo: add thunder sound
-    Math.random() < 0.5 ? thunder2.play() : thunder1.play();
+    Math.random() < 0.5 ? thunder1.play() : Math.random()< 0.5 ? thunder2.play() : thunder3.play();
     power+=5
     for(let i=0;i<animatronics.length;i++){
-        animatronics[i].level+=2
+        if(animatronics[i].overcharged){animatronics[i].level--}
+        else{animatronics[i].level+=2}
     }
 }
 //Animatronics
@@ -68,6 +89,7 @@ function setAnimaLvl(arrayLvls){
         animatronics[i].level=arrayLvls[i]
         animatronics[i].defaultLvl=arrayLvls[i]
         animatronics[i].position=0   
+        document.getElementById(animatronics[i].atak).textContent="🟢"
     }
 }
 let animaLvlPresets=[[0,0,0,0],[3,1,2,3],[7,3,6,4],[6,7,8,7],[13,12,8,15]]
@@ -84,7 +106,10 @@ function setTimer(){
 
   
 function Start(){
+    gameOn=true
     setAnimaLvl(animaLvlPresets[currentNight])
+
+    document.getElementById("animatronics").style.backgroundColor="#1c421c"
     
     power=100
     if(currentNight==0){
@@ -99,6 +124,7 @@ function Start(){
     // const timer1=setInterval(() =>  {console.log("Iteration: " + i);i++;}, 200);
     
     function endTimers(){
+        gameOn=false
         
         // musicBox.play()
         // clearTimeout(timer1)//Timer
@@ -188,8 +214,13 @@ function checkAnima(){
     //     }
 
         for(let a = 0; a < animatronics.length; a++) {
+            
             console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]);
+            if(!animatronics[a].overcharged){
             document.getElementById(animaPosition[a]).textContent=animatronics[a].rooms[animatronics[a].position]
+            }else{
+            document.getElementById(animaPosition[a]).textContent="Searching..."
+            }
         }
           
     setTimeout(()=>{
@@ -216,6 +247,7 @@ function animaActions(animatronic){
             if(!jumpscare){
                 jumpscare=true
                 animatronic.jumpscare.play()
+                document.getElementById("animatronics").style.backgroundColor="rgb(51, 17, 23)"
                 return true
 
                 //ToDo Jumpscare?
