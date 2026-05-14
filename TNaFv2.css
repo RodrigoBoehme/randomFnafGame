@@ -8,6 +8,7 @@ body{
 }
 .floating{
     position:fixed;
+    flex-wrap: wrap;
 }
 
 #btnCam{
@@ -30,6 +31,15 @@ body{
     background-color: rgb(83, 83, 83);
     margin-top:300px;
     margin-left: 40px;
+}
+#fuseBtn{
+    width: 50px;
+    margin-top: 5px;
+    margin-left: 40px;
+}
+#doorControls{
+    width: 50px;
+
 }
 #btnNose{
     width: 10px;

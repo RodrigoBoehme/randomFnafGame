@@ -13,6 +13,10 @@ let Cd=0
 let arrayTimeTags=["12pm","01am","02am","03am","04am","05am","06am"]
 let currentTime=0
 let gameOn=false
+let fuseDoor=true
+let emergencyfuse=true
+let spareFuses=0
+let changingFuses=false
 
 document.addEventListener("keydown", (event) => {
 const key = event.key; // Get the key pressed
@@ -78,6 +82,20 @@ function thunder(){
         else{animatronics[i].level+=2}
         if(Math.floor(Math.random()*100+1)<4){animaActions(animatronics[i])}
     }
+    if(door){
+        if(Math.floor(Math.random()*100+1)<3){
+            if(fuseDoor){
+            document.getElementById("fuseState").textContent="🟡"
+            fuseDoor=false
+            }else{
+            document.getElementById("fuseState").textContent="⚫"
+            emergencyfuse=false
+            }
+        }
+    }
+    if(Math.floor(Math.random()*100+1)<3){
+        btnDoor()
+    }
 }
 //Animatronics
 let animatronics = [
@@ -110,8 +128,12 @@ function setTimer(){
 
   
 function Start(){
+    spareFuses=3
+    fuseDoor=true
+    emergencyfuse=true
     gameOn=true
     setAnimaLvl(animaLvlPresets[currentNight])
+    document.getElementById("fuseState").textContent="🟢"
 
     document.getElementById("animatronics").style.backgroundColor="#1c421c"
     
@@ -146,6 +168,8 @@ function Start(){
         return
     }
 
+    
+
     //const timer2=setInterval(()=>{if(mRnd()>=15){endTimers()};},1500)
     // Add animatronic timers
     // ex:. const Freddy=setInterval(()=>{animatronics[1]},4010)
@@ -175,6 +199,7 @@ function Start(){
         if(currentNight<animaLvlPresets.length-2){
         currentNight++
         }
+        if(door){btnDoor()}
         endTimers()
         sixAM.play()
 
@@ -191,7 +216,7 @@ async function btnNose(){
 async function btnDoor(){
     if(gameOn){
     
-    if(!door &&power>0){
+    if(!door &&power>0&&(fuseDoor||emergencyfuse)){
         document.getElementById("btnDoor").style.background="Green"
         soundInstance(doorClose)
 
@@ -203,6 +228,20 @@ async function btnDoor(){
         door=false
     }
   }
+}
+// Function to change fuses (aka, fix the door)
+function btnFuse(){
+    if(gameOn&&spareFuses>0&&!changingFuses){
+        changingFuses=true
+        if(!fuseDoor&&!emergencyfuse&&spareFuses>1){
+            fuseDoor=true
+            emergencyfuse=true
+            spareFuses-=2
+            
+
+        }
+
+    }
 }
 
 //Function to check animatronics position
