@@ -29,6 +29,8 @@ console.log("Ctrl + S was pressed!");
     btnNose()
 }else if(key==="q" &&!gameOn){
     Start()
+}else if(key==="m"){
+    thunder()
 }
 
 });
@@ -70,10 +72,11 @@ function updtPwr(){
 function thunder(){
     // ToDo: add thunder sound
     Math.random() < 0.5 ? thunder1.play() : Math.random()< 0.5 ? thunder2.play() : thunder3.play();
-    power+=5
+    power+=3
     for(let i=0;i<animatronics.length;i++){
         if(animatronics[i].overcharged){animatronics[i].level--}
         else{animatronics[i].level+=2}
+        if(Math.floor(Math.random()*100+1)<4){animaActions(animatronics[i])}
     }
 }
 //Animatronics
@@ -90,6 +93,7 @@ function setAnimaLvl(arrayLvls){
         animatronics[i].defaultLvl=arrayLvls[i]
         animatronics[i].position=0   
         document.getElementById(animatronics[i].atak).textContent="🟢"
+        animatronics[i].overcharged=false
     }
 }
 let animaLvlPresets=[[0,0,0,0],[3,1,2,3],[7,3,6,4],[6,7,8,7],[13,12,8,15]]
@@ -185,6 +189,7 @@ async function btnNose(){
 
 //Function for closing the door
 async function btnDoor(){
+    if(gameOn){
     
     if(!door &&power>0){
         document.getElementById("btnDoor").style.background="Green"
@@ -197,10 +202,12 @@ async function btnDoor(){
         document.getElementById("btnDoor").style.background="grey"
         door=false
     }
+  }
 }
 
 //Function to check animatronics position
 function checkAnima(){
+    if(gameOn){
     if(!Cam &&power>0){
     power--
     soundInstance(CamOpen)
@@ -232,6 +239,7 @@ function checkAnima(){
         
     }},1500)
     }
+  }
 }
  
 function animaActions(animatronic){
@@ -276,7 +284,7 @@ function animaActions(animatronic){
         document.getElementById(animatronic.atak).textContent="🟢"
     }
     }else{
-        if(animatronic.level==animatronic.defaultLvl){
+        if(animatronic.level<=animatronic.defaultLvl){
             animatronic.overcharged=false
         }else{
             animatronic.level--
