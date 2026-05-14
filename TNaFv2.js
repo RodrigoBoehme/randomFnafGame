@@ -35,6 +35,8 @@ console.log("Ctrl + S was pressed!");
     Start()
 }else if(key==="m"){
     thunder()
+}else if(key==="s"){
+    btnFuse()
 }
 
 });
@@ -128,13 +130,15 @@ function setTimer(){
 
   
 function Start(){
+    // setup door
     spareFuses=3
+    document.getElementById("fuseBtn").style.background="#grey"
     fuseDoor=true
     emergencyfuse=true
+    //defines game is on(activate buttons and whatnot and some other miscelaneous changes)
     gameOn=true
     setAnimaLvl(animaLvlPresets[currentNight])
     document.getElementById("fuseState").textContent="🟢"
-
     document.getElementById("animatronics").style.backgroundColor="#1c421c"
     
     power=100
@@ -234,11 +238,33 @@ function btnFuse(){
     if(gameOn&&spareFuses>0&&!changingFuses){
         changingFuses=true
         if(!fuseDoor&&!emergencyfuse&&spareFuses>1){
+            setTimeout(()=>{
             fuseDoor=true
             emergencyfuse=true
             spareFuses-=2
-            
+            document.getElementById("fuseState").textContent="🟢"
+            },7000)
 
+        }else if(!fuseDoor&&!emergencyfuse&&spareFuses>0){
+            setTimeout(()=>{
+            fuseDoor=true
+            spareFuses--
+            document.getElementById("fuseState").textContent="🟢"
+            },3000)
+        }else if(!fuseDoor&&emergencyfuse&&spareFuses>0){
+            setTimeout(()=>{
+            fuseDoor=true
+            spareFuses--
+            document.getElementById("fuseState").textContent="🟢"
+            },3000)
+        }else if(!emergencyfuse&&spareFuses>0){
+            setTimeout(()=>{
+            emergencyfuse=true
+            spareFuses--
+            document.getElementById("fuseState").textContent="🟡"
+            },4000)
+        }else if(!emergencyfuse&&spareFuses==0){
+            document.getElementById("fuseBtn").style.background="#2f2f2f"
         }
 
     }
@@ -285,7 +311,7 @@ function animaActions(animatronic){
     
     if(!animatronic.overcharged){
     // if(animatronic.level>=mRnd()){
-        if(animatronic.level>25){
+        if(animatronic.level>20+(currentNight*2)){
             animatronic.overcharged=true
             document.getElementById(animatronic.atak).textContent="⚫"
             return false
@@ -323,7 +349,7 @@ function animaActions(animatronic){
         document.getElementById(animatronic.atak).textContent="🟢"
     }
     }else{
-        if(animatronic.level<=animatronic.defaultLvl){
+        if(animatronic.level<=animatronic.defaultLvl+currentNight){
             animatronic.overcharged=false
         }else{
             animatronic.level--
