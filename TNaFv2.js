@@ -97,13 +97,15 @@ function thunder(){
         else {thunder4.play()}
     
     power+=4
-    for(let i=0;i<animatronics.length;i++){
-        if(animatronics[i].overcharged){animatronics[i].level--}
-        else{animatronics[i].level+=2}
-        if(Math.floor(Math.random()*100+1)<4){animaActions(animatronics[i])}
+    if(Math.floor(Math.random()*100<(currentNight*20)+10)){
+        for(let i=0;i<animatronics.length;i++){
+            if(animatronics[i].overcharged){animatronics[i].level--}
+            else{animatronics[i].level+=2}
+            if(Math.floor(Math.random()*100+1)<4){animaActions(animatronics[i])}
+        }
     }
     if(door){
-        if(Math.floor(Math.random()*100+1)<3){
+        if(Math.floor(Math.random()*100+1)<4){
             if(fuseDoor){
             document.getElementById("fuseState").textContent="🟡"
             fuseDoor=false
@@ -186,6 +188,7 @@ function Start(){
         clearTimeout(storm)
         clearTimeout(Pwr)
         clearTimeout(timeChanger)
+        clearTimeout(letsLevelEmUp)
         document.getElementById("Starter").hidden=false
         return
     }
@@ -203,6 +206,7 @@ function Start(){
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},18000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){thunder()}},1234)
     const timeChanger=setInterval(()=>{setTimer()},30000)
+    const letsLevelEmUp=setTimeout(()=>{for(let i=0;i<animatronics.length;i++){animatronics[i].level+=2}},60000)
 
     // ToDo make a way to lose?
 
@@ -221,10 +225,13 @@ function Start(){
         if(currentNight<animaLvlPresets.length-2){
         currentNight++
         }
-        document.getElementById("Starter").textContent="Continue? Night: "+currentNight+1
+        document.getElementById("Starter").textContent="You Win!!!!!!!!!!"
+        
+        setTimeout(()=>{document.getElementById("Starter").textContent="Continue? Night: "+(currentNight+1)},4000)
         if(door){btnDoor()}
         endTimers()
         sixAM.play()
+        document.getElementById("animatronics").style.backgroundColor="#fff"
 
     
     },180000)//Time to end in ms      
