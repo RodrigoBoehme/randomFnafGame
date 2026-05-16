@@ -50,6 +50,7 @@ async function soundInstance(audioToBePlayed){
 }
 //Importing all audios
 const jumps=new Audio("assets/jumpscare.mp3")
+const jumps2=new Audio("assets/jumps2.mp3")     
 const sixAM=new Audio("assets/fnaf6am.mp3")
 const quirk=new Audio("assets/quirky-at-night.mp3")
 const doorAnima=new Audio("assets/animatronic-in-door.mp3")
@@ -59,12 +60,24 @@ const doorClose=new Audio("assets/doorSlamFnaf.mp3")
 const CamOpen=new Audio("assets/fnaf-camera.mp3")
 const CamClose=new Audio("assets/camera-close.mp3")
 const bonJs=new Audio("assets/faaah.mp3")
+const bonJs2=new Audio("assets/bonnie-ar-jumpscare.mp3")
 const chicJs=new Audio("assets/fnafJSChica.mp3")
 const greg=new Audio("assets/gregory-what-the-fazballs.mp3")
 const ring=new Audio("assets/fnafRingtone.mp3")
 const thunder1=new Audio("assets/thunder-sfx.mp3")
-const thunder2=new Audio("assets/thunder-shock.mp3")
+const overchargeAnima=new Audio("assets/thunder-shock.mp3")
 const thunder3=new Audio("assets/thunder.mp3")
+const pizza=new Audio("assets/pizza.mp3")
+const fuseStart=new Audio("assets/error-fnaf.mp3")
+const fuseFnsh=new Audio("assets/fnaf-light.mp3")
+const boop=new Audio("assets/fnaf-boop.mp3")
+const running=new Audio("assets/fnaf-running.mp3")
+const laugh=new Audio("assets/fnaf-freddys-laugh.mp3")
+const teleport=new Audio("assets/tp.mp3")
+const shortFx=new Audio("assets/foxy-jumpscare-short.mp3")
+const chicJs2=new Audio("assets/chica-pizza-sound.mp3")
+const thunder2=new Audio("assets/thunder-sounds.mp3")
+const thunder4=new Audio("assets/thunder1.mp3")
 
 function updtPwr(){
     if(power>0){
@@ -77,8 +90,13 @@ function updtPwr(){
 }
 function thunder(){
     // ToDo: add thunder sound
-    Math.random() < 0.5 ? thunder1.play() : Math.random()< 0.5 ? thunder2.play() : thunder3.play();
-    power+=3
+    let thunder101=Math.random() 
+        if(thunder101<0.25){thunder1.play()}
+        else if(thunder101<0.5){thunder2.play()}
+        else if(thunder101<0.75) {thunder3.play();}
+        else {thunder4.play()}
+    
+    power+=4
     for(let i=0;i<animatronics.length;i++){
         if(animatronics[i].overcharged){animatronics[i].level--}
         else{animatronics[i].level+=2}
@@ -101,10 +119,10 @@ function thunder(){
 }
 //Animatronics
 let animatronics = [
-      { name: "Bonnie",atak:"ba",jumpscare:bonJs , position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
-      { name: "Freddy", atak:"fa",jumpscare:greg,position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
-      { name: "Foxy",atak:"fa2",jumpscare:jumps, position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove 0", "Pirate Cove 1", "Pirate Cove 2", "Corridor", "Security Door"] },
-      { name: "Chica",atak:"ca",jumpscare:chicJs, position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
+      { name: "Bonnie",atak:"ba",jumpscare:bonJs,jumpscare2:bonJs2,chancWlkSnd:0.2,walkin: teleport, position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
+      { name: "Freddy", atak:"fa",jumpscare:greg,jumpscare2:jumps2,chancWlkSnd:1,walkin:laugh,position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
+      { name: "Foxy",atak:"fa2",jumpscare:jumps,jumpscare2:shortFx,chancWlkSnd:0.9,walkin:running,position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove 0", "Pirate Cove 1", "Pirate Cove 2", "Corridor", "Security Door"] },
+      { name: "Chica",atak:"ca",jumpscare:chicJs, jumpscare2:chicJs2,chancWlkSnd:0.5,walkin: pizza,position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
 ]
 
 function setAnimaLvl(arrayLvls){
@@ -182,7 +200,7 @@ function Start(){
     const Chinken=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},4210)
     const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
     const Pwr=setInterval(()=>{updtPwr()},2400)
-    const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},10000)
+    const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},18000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){thunder()}},1234)
     const timeChanger=setInterval(()=>{setTimer()},30000)
 
@@ -203,6 +221,7 @@ function Start(){
         if(currentNight<animaLvlPresets.length-2){
         currentNight++
         }
+        document.getElementById("Starter").textContent="Continue? Night: "+currentNight+1
         if(door){btnDoor()}
         endTimers()
         sixAM.play()
@@ -213,7 +232,7 @@ function Start(){
 //Button functions
 
 async function btnNose(){
-    ring.play()
+    Math.random() <0.1 ? ring.play(): boop.play();
 }
 
 //Function for closing the door
@@ -236,12 +255,14 @@ async function btnDoor(){
 // Function to change fuses (aka, fix the door)
 function btnFuse(){
     if(gameOn&&spareFuses>0&&!changingFuses){
+        fuseStart.play()
         changingFuses=true
         if(!fuseDoor&&!emergencyfuse&&spareFuses>1){
             setTimeout(()=>{
             fuseDoor=true
             emergencyfuse=true
             spareFuses-=2
+            fuseFnsh.play()
             document.getElementById("fuseState").textContent="🟢"
             },7000)
 
@@ -249,11 +270,13 @@ function btnFuse(){
             setTimeout(()=>{
             fuseDoor=true
             spareFuses--
+            fuseFnsh.play()
             document.getElementById("fuseState").textContent="🟢"
             },3000)
         }else if(!fuseDoor&&emergencyfuse&&spareFuses>0){
             setTimeout(()=>{
             fuseDoor=true
+            fuseFnsh.play()
             spareFuses--
             document.getElementById("fuseState").textContent="🟢"
             },3000)
@@ -261,6 +284,7 @@ function btnFuse(){
             setTimeout(()=>{
             emergencyfuse=true
             spareFuses--
+            fuseFnsh.play()
             document.getElementById("fuseState").textContent="🟡"
             },4000)
         }else if(!emergencyfuse&&spareFuses==0){
@@ -313,13 +337,14 @@ function animaActions(animatronic){
     // if(animatronic.level>=mRnd()){
         if(animatronic.level>20+(currentNight*2)){
             animatronic.overcharged=true
+            overchargeAnima.play()
             document.getElementById(animatronic.atak).textContent="⚫"
             return false
         }
         if(animatronic.position>=animatronic.path&&!door&&animatronic.canAtk){ //Animatronic at door and door open
             if(!jumpscare){
                 jumpscare=true
-                animatronic.jumpscare.play()
+                 Math.random()<0.5 ? animatronic.jumpscare2.play():animatronic.jumpscare.play()
                 document.getElementById("animatronics").style.backgroundColor="rgb(51, 17, 23)"
                 return true
 
@@ -340,6 +365,7 @@ function animaActions(animatronic){
 
         }else if(animatronic.position<animatronic.path&&mRnd()>=4){
             animatronic.position++
+           if(Math.random()<animatronic.chancWlkSnd) animatronic.walkin.play()
         }else if(animatronic.position>1&&mRnd()>=18){
             animatronic.position--
         }
