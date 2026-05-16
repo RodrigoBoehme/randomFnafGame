@@ -10,7 +10,7 @@ let Bd=0
 let Fx=0
 let Fd=0
 let Cd=0
-let arrayTimeTags=["12pm","01am","02am","03am","04am","05am","06am"]
+let arrayTimeTags=["12:00PM","01:00","2AM","3AM","4AM","5AM","6AM"]
 let currentTime=0
 let gameOn=false
 let fuseDoor=true
@@ -91,21 +91,21 @@ function updtPwr(){
 function thunder(){
     // ToDo: add thunder sound
     let thunder101=Math.random() 
-        if(thunder101<0.25){thunder1.play()}
-        else if(thunder101<0.5){thunder2.play()}
-        else if(thunder101<0.75) {thunder3.play();}
-        else {thunder4.play()}
+        if(thunder101<0.25){soundInstance(thunder1)}
+        else if(thunder101<0.5){soundInstance(thunder2)}
+        else if(thunder101<0.75) {soundInstance(thunder3)}
+        else {soundInstance(thunder4)}
     
-    power+=4
+    power+=3
     if(Math.floor(Math.random()*100<(currentNight*20)+10)){
         for(let i=0;i<animatronics.length;i++){
             if(animatronics[i].overcharged){animatronics[i].level--}
-            else{animatronics[i].level+=2}
-            if(Math.floor(Math.random()*100+1)<4){animaActions(animatronics[i])}
+            else{animatronics[i].level++}
+            if(Math.floor(Math.random()*100+1)<4*currentNight){if(animaActions(animatronics[i])){return true}}
         }
     }
     if(door){
-        if(Math.floor(Math.random()*100+1)<4){
+        if(Math.floor(Math.random()*100+1)<5){
             if(fuseDoor){
             document.getElementById("fuseState").textContent="🟡"
             fuseDoor=false
@@ -118,12 +118,13 @@ function thunder(){
     if(Math.floor(Math.random()*100+1)<3){
         btnDoor()
     }
+    return false
 }
 //Animatronics
 let animatronics = [
       { name: "Bonnie",atak:"ba",jumpscare:bonJs,jumpscare2:bonJs2,chancWlkSnd:0.2,walkin: teleport, position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
       { name: "Freddy", atak:"fa",jumpscare:greg,jumpscare2:jumps2,chancWlkSnd:1,walkin:laugh,position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
-      { name: "Foxy",atak:"fa2",jumpscare:jumps,jumpscare2:shortFx,chancWlkSnd:0.9,walkin:running,position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove 0", "Pirate Cove 1", "Pirate Cove 2", "Corridor", "Security Door"] },
+      { name: "Foxy",atak:"fa2",jumpscare:jumps,jumpscare2:shortFx,chancWlkSnd:0.9,walkin:running,position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Dining Area", "Corridor", "Security Door"] },
       { name: "Chica",atak:"ca",jumpscare:chicJs, jumpscare2:chicJs2,chancWlkSnd:0.5,walkin: pizza,position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
 ]
 
@@ -204,7 +205,7 @@ function Start(){
     const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
     const Pwr=setInterval(()=>{updtPwr()},2400)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},18000)
-    const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){thunder()}},1234)
+    const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){if(thunder()){endTimers()}}},1234)
     const timeChanger=setInterval(()=>{setTimer()},30000)
     const letsLevelEmUp=setTimeout(()=>{for(let i=0;i<animatronics.length;i++){animatronics[i].level+=2}},60000)
 
@@ -222,7 +223,7 @@ function Start(){
         //ToDo, end all timers here
         //clearTimeout(timer1);
         //clearTimeout(timer2)//Timer for stopping game
-        if(currentNight<animaLvlPresets.length-2){
+        if(currentNight<animaLvlPresets.length-1){
         currentNight++
         }
         document.getElementById("Starter").textContent="You Win!!!!!!!!!!"
@@ -319,7 +320,9 @@ function checkAnima(){
         for(let a = 0; a < animatronics.length; a++) {
             
             console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]);
-            if(!animatronics[a].overcharged){
+            if(Math.random()<0.05*currentNight){
+            document.getElementById(animaPosition[a]).textContent="IT'S ME"
+            }else if(!animatronics[a].overcharged){
             document.getElementById(animaPosition[a]).textContent=animatronics[a].rooms[animatronics[a].position]
             }else{
             document.getElementById(animaPosition[a]).textContent="Searching..."
@@ -360,6 +363,7 @@ function animaActions(animatronic){
 
         }else if(animatronic.position>=animatronic.path&&mRnd()<16&&animatronic.canAtk){ //Animatronic at door but not open
             animatronic.position=1
+            power--
 
             
         }
@@ -385,7 +389,7 @@ function animaActions(animatronic){
         if(animatronic.level<=animatronic.defaultLvl+currentNight){
             animatronic.overcharged=false
         }else{
-            animatronic.level--
+            animatronic.level-=3
         }
     }
     return false
