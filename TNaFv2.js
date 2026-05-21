@@ -10,7 +10,7 @@ let Bd=0
 let Fx=0
 let Fd=0
 let Cd=0
-let arrayTimeTags=["12:00PM","01:00","2AM","3AM","4AM","5AM","6AM"]
+let arrayTimeTags=["12:00 PM","01:00 AM","02:00 AM","03:00 AM","4:00 AM","5:00 AM","6:00 AM"]
 let currentTime=0
 let gameOn=false
 let fuseDoor=true
@@ -79,11 +79,15 @@ const chicJs2=new Audio("assets/chica-pizza-sound.mp3")
 const thunder2=new Audio("assets/thunder-sounds.mp3")
 const thunder4=new Audio("assets/thunder1.mp3")
 
+function updtTimeDisplay(){
+    document.getElementById("power").textContent=power
+}
+
 function updtPwr(){
     if(power>0){
     if(door){power--}
     power--
-    document.getElementById("power").textContent=power
+    updtTimeDisplay()
     }if(door&&power==0){
         btnDoor()
     }
@@ -96,7 +100,8 @@ function thunder(){
         else if(thunder101<0.75) {soundInstance(thunder3)}
         else {soundInstance(thunder4)}
     
-    power+=3
+    if(Math.random()>0.6){power+=3}
+    updtTimeDisplay()
     if(Math.floor(Math.random()*100<(currentNight*20)+10)){
         for(let i=0;i<animatronics.length;i++){
             if(animatronics[i].overcharged){animatronics[i].level--}
@@ -163,6 +168,7 @@ function Start(){
     document.getElementById("animatronics").style.backgroundColor="#1c421c"
     
     power=100
+    updtTimeDisplay()
     if(currentNight==0){
     quirk.play()
     }
@@ -307,6 +313,7 @@ function checkAnima(){
     if(gameOn){
     if(!Cam &&power>0){
     power--
+    updtTimeDisplay()
     soundInstance(CamOpen)
     Cam=true
     // for(let i=0;i<animatronics.length;i++){
