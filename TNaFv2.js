@@ -209,11 +209,11 @@ function Start(){
     const Bnuy=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},3940)
     const Chinken=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},4210)
     const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
-    const Pwr=setInterval(()=>{updtPwr()},2400)
-    const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},18000)
+    const Pwr=setInterval(()=>{updtPwr()},3000)
+    const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},15000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){if(thunder()){endTimers()}}},1234)
-    const timeChanger=setInterval(()=>{setTimer()},30000)
-    const letsLevelEmUp=setTimeout(()=>{for(let i=0;i<animatronics.length;i++){animatronics[i].level+=2}},60000)
+    const timeChanger=setInterval(()=>{setTimer()},50000)
+    const letsLevelEmUp=setTimeout(()=>{for(let i=0;i<animatronics.length;i++){animatronics[i].level+=2}},120000)
 
     // ToDo make a way to lose?
 
@@ -241,7 +241,7 @@ function Start(){
         document.getElementById("animatronics").style.backgroundColor="#fff"
 
     
-    },180000)//Time to end in ms      
+    },300000)//Time to end in ms      
 }
 //Button functions
 
