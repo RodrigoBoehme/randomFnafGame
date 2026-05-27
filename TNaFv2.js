@@ -209,7 +209,7 @@ function Start(){
     const Bnuy=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},3940)
     const Chinken=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},4210)
     const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
-    const Pwr=setInterval(()=>{updtPwr()},3000)
+    const Pwr=setInterval(()=>{updtPwr()},3100)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},15000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){if(thunder()){endTimers()}}},1234)
     const timeChanger=setInterval(()=>{setTimer()},50000)
