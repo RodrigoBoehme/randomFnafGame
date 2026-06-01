@@ -92,6 +92,13 @@ function updtPwr(){
         btnDoor()
     }
 }
+
+function lightning(){
+        document.body.style.background="linear-gradient("+Math.random()*360+"deg, rgb(222, 255, 133), rgb(46,46,46))"
+    setTimeout(()=>{
+        document.body.style.background="rgb(46, 46, 46)"
+    },200)
+}
 function thunder(){
     // ToDo: add thunder sound
     let thunder101=Math.random() 
@@ -100,6 +107,7 @@ function thunder(){
         else if(thunder101<0.75) {soundInstance(thunder3)}
         else {soundInstance(thunder4)}
     
+        
     if(Math.random()>0.6){power+=3}
     updtTimeDisplay()
     if(Math.floor(Math.random()*100<(currentNight*20)+10)){
@@ -109,6 +117,8 @@ function thunder(){
             if(Math.floor(Math.random()*100+1)<4*currentNight){if(animaActions(animatronics[i])){return true}}
         }
     }
+    lightning()
+
     if(door){
         if(Math.floor(Math.random()*100+1)<5){
             if(fuseDoor){
@@ -123,6 +133,7 @@ function thunder(){
     if(Math.floor(Math.random()*100+1)<3){
         btnDoor()
     }
+
     return false
 }
 //Animatronics
@@ -140,6 +151,7 @@ function setAnimaLvl(arrayLvls){
         animatronics[i].position=0   
         document.getElementById(animatronics[i].atak).textContent="🟢"
         animatronics[i].overcharged=false
+        document.getElementById(animaPosition[i]).textContent="Loading..."
     }
 }
 let animaLvlPresets=[[0,0,0,0],[3,1,2,3],[7,3,6,4],[6,7,8,7],[13,12,8,15]]
@@ -209,7 +221,7 @@ function Start(){
     const Bnuy=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},3940)
     const Chinken=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},4210)
     const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
-    const Pwr=setInterval(()=>{updtPwr()},3100)
+    const Pwr=setInterval(()=>{updtPwr()},3300)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},15000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){if(thunder()){endTimers()}}},1234)
     const timeChanger=setInterval(()=>{setTimer()},50000)
