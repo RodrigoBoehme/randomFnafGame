@@ -114,7 +114,7 @@ function thunder(){
         for(let i=0;i<animatronics.length;i++){
             if(animatronics[i].overcharged){animatronics[i].level--}
             else{animatronics[i].level++}
-            if(Math.floor(Math.random()*100+1)<4*currentNight){if(animaActions(animatronics[i])){return true}}
+            if(Math.floor(Math.random()*100+1)<4*currentNight){if(animaActions(animatronics[i],false)){return true}}
         }
     }
     lightning()
@@ -138,10 +138,10 @@ function thunder(){
 }
 //Animatronics
 let animatronics = [
-      { name: "Bonnie",atak:"ba",jumpscare:bonJs,jumpscare2:bonJs2,chancWlkSnd:0.2,walkin: teleport, position: 0, path: 5, level: Bd, defaultLvl: Bd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
-      { name: "Freddy", atak:"fa",jumpscare:greg,jumpscare2:jumps2,chancWlkSnd:1,walkin:laugh,position: 0, path: 5, level: Fd, defaultLvl: Fd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
-      { name: "Foxy",atak:"fa2",jumpscare:jumps,jumpscare2:shortFx,chancWlkSnd:0.9,walkin:running,position: 0, path: 4, level: Fx, defaultLvl: Fx, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Dining Area", "Corridor", "Security Door"] },
-      { name: "Chica",atak:"ca",jumpscare:chicJs, jumpscare2:chicJs2,chancWlkSnd:0.5,walkin: pizza,position: 0, path: 5, level: Cd, defaultLvl: Cd, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
+      { name: "Bonnie",atak:document.getElementById("ba"),jumpscare:bonJs,jumpscare2:bonJs2,chancWlkSnd:0.2,walkin: teleport, position: 0, path: 5, level: Bd, defaultLvl: Bd,disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
+      { name: "Freddy", atak:document.getElementById("fa"),jumpscare:greg,jumpscare2:jumps2,chancWlkSnd:1,walkin:laugh,position: 0, path: 5, level: Fd, defaultLvl: Fd,disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
+      { name: "Foxy",atak:document.getElementById("fa2"),jumpscare:jumps,jumpscare2:shortFx,chancWlkSnd:0.9,walkin:running,position: 0, path: 4, level: Fx, defaultLvl: Fx, disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Dining Area", "Corridor", "Security Door"] },
+      { name: "Chica",atak:document.getElementById("ca"),jumpscare:chicJs, jumpscare2:chicJs2,chancWlkSnd:0.5,walkin: pizza,position: 0, path: 5, level: Cd, defaultLvl: Cd, disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
 ]
 
 function setAnimaLvl(arrayLvls){
@@ -149,7 +149,7 @@ function setAnimaLvl(arrayLvls){
         animatronics[i].level=arrayLvls[i]
         animatronics[i].defaultLvl=arrayLvls[i]
         animatronics[i].position=0   
-        document.getElementById(animatronics[i].atak).textContent="🟢"
+        animatronics[i].atak.textContent="🟢"
         animatronics[i].overcharged=false
         document.getElementById(animaPosition[i]).textContent="Loading..."
     }
@@ -217,10 +217,10 @@ function Start(){
     //const timer2=setInterval(()=>{if(mRnd()>=15){endTimers()};},1500)
     // Add animatronic timers
     // ex:. const Freddy=setInterval(()=>{animatronics[1]},4010)
-    const Fweddy=setInterval(()=>{if(animaActions(animatronics[1])){endTimers()}},4150)
-    const Bnuy=setInterval(()=>{if(animaActions(animatronics[0])){endTimers()}},3940)
-    const Chinken=setInterval(()=>{if(animaActions(animatronics[3])){endTimers()}},4210)
-    const foxYarr=setInterval(()=>{if(animaActions(animatronics[2])){endTimers()}},4010)
+    const Fweddy=setInterval(()=>{if(animaActions(animatronics[1],true)){endTimers()}},4150)
+    const Bnuy=setInterval(()=>{if(animaActions(animatronics[0],true)){endTimers()}},3940)
+    const Chinken=setInterval(()=>{if(animaActions(animatronics[3],true)){endTimers()}},4210)
+    const foxYarr=setInterval(()=>{if(animaActions(animatronics[2],true)){endTimers()}},4010)
     const Pwr=setInterval(()=>{updtPwr()},3300)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},15000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){if(thunder()){endTimers()}}},1234)
@@ -338,7 +338,7 @@ function checkAnima(){
 
         for(let a = 0; a < animatronics.length; a++) {
             
-            console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]);
+            console.log(animatronics[a].name + " " + animatronics[a].rooms[animatronics[a].position]+" "+animatronics[a].level);
             if(Math.random()<0.05*currentNight){
             document.getElementById(animaPosition[a]).textContent="IT'S ME"
             }else if(!animatronics[a].overcharged){
@@ -360,16 +360,19 @@ function checkAnima(){
   }
 }
  
-function animaActions(animatronic){
+function animaActions(animatronic,bonusAtack){
     
-    if(!animatronic.overcharged){
+    if(!animatronic.disabled){
     // if(animatronic.level>=mRnd()){
         if(animatronic.level>20+(currentNight*2)){
-            animatronic.overcharged=true
+            animatronic.disabled=true
             overchargeAnima.play()
-            document.getElementById(animatronic.atak).textContent="⚫"
+            animatronic.atak.textContent="⚫"
             return false
+        }else if(animatronic.level>20){
+            animatronic.overcharged=true
         }
+
         if(animatronic.position>=animatronic.path&&!door&&animatronic.canAtk){ //Animatronic at door and door open
             if(!jumpscare){
                 jumpscare=true
@@ -390,7 +393,7 @@ function animaActions(animatronic){
             
         if(animatronic.position>=animatronic.path){
             animatronic.canAtk=true
-            document.getElementById(animatronic.atak).textContent="🔴"
+            animatronic.atak.textContent="🔴"
             doorAnima.play()
 
         }else if(animatronic.position<animatronic.path&&mRnd()>=4){
@@ -402,14 +405,19 @@ function animaActions(animatronic){
     }
     if(animatronic.position<animatronic.path){
         animatronic.canAtk=false
-        document.getElementById(animatronic.atak).textContent="🟢"
+        animatronic.atak.textContent="🟢"
     }
     }else{
         if(animatronic.level<=animatronic.defaultLvl+currentNight){
+            animatronic.disabled=false
             animatronic.overcharged=false
         }else{
             animatronic.level-=3
         }
+    }
+    if(animatronic.overcharged&&bonusAtack){
+        animatronic.atak.textContent="🟡"
+        setTimeout(()=>{animaActions(animatronic,false)},2000)
     }
     return false
 
