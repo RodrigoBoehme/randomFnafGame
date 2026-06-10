@@ -79,8 +79,8 @@ body{
     position: fixed;
     background-color: rgba(28, 66, 28);
     width: 50%;
-    height: 300px;
     font-weight: bolder;
+    font-size: small;
     text-align: left;
     margin-top: 200px;
     margin-left: 24%;
