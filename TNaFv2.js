@@ -17,7 +17,6 @@ let fuseDoor=true
 let emergencyfuse=true
 let spareFuses=0
 let changingFuses=false
-
 document.addEventListener("keydown", (event) => {
 const key = event.key; // Get the key pressed
 if (key === "Enter") {
@@ -40,6 +39,7 @@ console.log("Ctrl + S was pressed!");
 }
 
 });
+
 
 //Audios:
 async function soundInstance(audioToBePlayed){
@@ -166,7 +166,8 @@ function setTimer(){
 
 function firstSetup(){
     document.getElementById("warn").hidden=true
-    document.getElementById("warn").style.color="rgba(1,1,1,0)" 
+    document.getElementById("warn").style.color="rgba(1,1,1,0)"
+    document.getElementById("warn").style.backgroundColor="rgba(1,1,1,0)" 
     document.getElementById('main').hidden=false
     document.getElementById("doorControls").hidden=false
     document.getElementById('btnNose').hidden=false
