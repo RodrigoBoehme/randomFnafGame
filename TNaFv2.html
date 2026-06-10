@@ -11,16 +11,30 @@
 </head>
 
 <body>
+    <div id="warn">
+        <h1>This game contains nothing much</h1>
+        <br>
+        <p>Objectives:</p>
+        <ol>
+            <li>Close the door if someone appears on the door</li>
+            <li>Check power to prevent being unnable to close the door</li>
+            <li>Check where the animatronics are via cams(?)</li>
+            <li>Change fuses if the breaks</li>
+            <li>Survive until 6AM</li>
+        </ol>
+                
+        <p style="text-align: right;">Version: 0.1</p>
+    </div>
 
     <button class="floating" id="Starter" onclick="Start()">Start</button>
-    <div id="doorControls" class="floating">
+    <div id="doorControls" class="floating" hidden>
     <button id="btnDoor" onclick="btnDoor()">Door</button>
     <button id="fuseBtn" onclick="btnFuse()">Fuse</button>
     </div>
-    <button class="floating" id="btnNose" onclick="btnNose()"></button>
+    <button class="floating" id="btnNose" onclick="btnNose()"hidden></button>
 
-    <main>
-        <div id="animatronics" class="container">
+    <main id="main" hidden>
+        <div id="animatronics" class="container" >
             <div id="camAndDoor">
                 <p class="p2" style="text-align: left;color: black;padding-bottom: 0;" id="time">12AB</p>
                 <p class="p2" style="text-align: right; margin: 0; padding-bottom: 0;">Door<span id="fuseState">⚫</span> </p>

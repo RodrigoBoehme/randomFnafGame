@@ -74,6 +74,19 @@ body{
     text-shadow:-1px -1px 0 white,1px -1px 0 white,-1px  1px 0 white,1px  1px 0 white; 
 
 }
+#warn{
+    display: block;
+    position: fixed;
+    background-color: rgba(28, 66, 28);
+    width: 50%;
+    height: 300px;
+    font-weight: bolder;
+    text-align: left;
+    margin-top: 200px;
+    margin-left: 24%;
+    padding:  20px;
+
+}
 #camAndDoor{
     flex:0;
     height: 30px;

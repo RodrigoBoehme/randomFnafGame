@@ -164,12 +164,17 @@ function setTimer(){
 }
 //Main Game:
 
-
-
-  
+function firstSetup(){
+    document.getElementById("warn").hidden=true
+    document.getElementById('main').hidden=false
+    document.getElementById("doorControls").hidden=false
+    document.getElementById('btnNose').hidden=false
+    
+}
 function Start(){
     // setup door
     spareFuses=3
+   firstSetup()
     document.getElementById("fuseBtn").style.background="#grey"
     fuseDoor=true
     emergencyfuse=true
