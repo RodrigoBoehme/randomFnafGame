@@ -87,6 +87,10 @@ body{
     padding:  20px;
 
 }
+#warn li ,#warn p{
+    background-color: yellow;
+    font-size: 15px;
+}
 #camAndDoor{
     flex:0;
     height: 30px;
