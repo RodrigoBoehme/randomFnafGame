@@ -108,13 +108,13 @@ function thunder(){
         else {soundInstance(thunder4)}
     
         
-    if(Math.random()>0.6){power+=3}
+    if(Math.random()>0.15*currentNight){power+=3}
     updtTimeDisplay()
     if(Math.floor(Math.random()*100<(currentNight*20)+10)){
         for(let i=0;i<animatronics.length;i++){
             if(animatronics[i].overcharged){animatronics[i].level--}
             else{animatronics[i].level++}
-            if(Math.floor(Math.random()*100+1)<4*currentNight){if(animaActions(animatronics[i],false)){return true}}
+            if(Math.floor(Math.random()*100+1)<4*currentNight+5){if(animaActions(animatronics[i],false)){return true}}
         }
     }
     lightning()
@@ -138,10 +138,10 @@ function thunder(){
 }
 //Animatronics
 let animatronics = [
-      { name: "Bonnie",atak:document.getElementById("ba"),jumpscare:bonJs,jumpscare2:bonJs2,chancWlkSnd:0.2,walkin: teleport, position: 0, path: 5, level: Bd, defaultLvl: Bd,disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
-      { name: "Freddy", atak:document.getElementById("fa"),jumpscare:greg,jumpscare2:jumps2,chancWlkSnd:1,walkin:laugh,position: 0, path: 5, level: Fd, defaultLvl: Fd,disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
-      { name: "Foxy",atak:document.getElementById("fa2"),jumpscare:jumps,jumpscare2:shortFx,chancWlkSnd:0.9,walkin:running,position: 0, path: 4, level: Fx, defaultLvl: Fx, disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Dining Area", "Corridor", "Security Door"] },
-      { name: "Chica",atak:document.getElementById("ca"),jumpscare:chicJs, jumpscare2:chicJs2,chancWlkSnd:0.5,walkin: pizza,position: 0, path: 5, level: Cd, defaultLvl: Cd, disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
+      { name: "Bonnie",atak:document.getElementById("ba"),jumpImg:document.getElementById("bonnieImgjs"),jumpscare:bonJs,jumpscare2:bonJs2,chancWlkSnd:0.2,walkin: teleport, position: 0, path: 5, level: Bd, defaultLvl: Bd,disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Parts & Services", "Supply Closet", "Corridor", "Security Door"] },
+      { name: "Freddy", atak:document.getElementById("fa"),jumpImg:document.getElementById("freddyImgjs"),jumpscare:greg,jumpscare2:jumps2,chancWlkSnd:1,walkin:laugh,position: 0, path: 5, level: Fd, defaultLvl: Fd,disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] },
+      { name: "Foxy",atak:document.getElementById("fa2"),jumpImg:document.getElementById("foxyImgjs"),jumpscare:jumps,jumpscare2:shortFx,chancWlkSnd:0.9,walkin:running,position: 0, path: 4, level: Fx, defaultLvl: Fx, disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Pirate Cove", "Pirate Cove", "Dining Area", "Corridor", "Security Door"] },
+      { name: "Chica",atak:document.getElementById("ca"),jumpImg:document.getElementById("chicaImgjs"),jumpscare:chicJs, jumpscare2:chicJs2,chancWlkSnd:0.5,walkin: pizza,position: 0, path: 5, level: Cd, defaultLvl: Cd, disabled:false, overcharged: false, canAtk: false, status: true, rooms: ["Stage", "Dining Area", "Restrooms", "Kitchen", "Corridor", "Security Door"] }
 ]
 
 function setAnimaLvl(arrayLvls){
@@ -380,11 +380,15 @@ function animaActions(animatronic,bonusAtack){
             animatronic.overcharged=true
         }
 
-        if(animatronic.position>=animatronic.path&&!door&&animatronic.canAtk){ //Animatronic at door and door open
+        if(animatronic.position>=animatronic.path&&!door&&animatronic.canAtk&&!bonusAtack){
+            console.log(animatronic.name+" is at the door")
+        }else if(animatronic.position>=animatronic.path&&!door&&animatronic.canAtk){ //Animatronic at door and door open
             if(!jumpscare){
                 jumpscare=true
                  Math.random()<0.5 ? animatronic.jumpscare2.play():animatronic.jumpscare.play()
                 document.getElementById("animatronics").style.backgroundColor="rgb(51, 17, 23)"
+                animatronic.jumpImg.hidden=false
+                setTimeout(()=>{animatronic.jumpImg.hidden=true},2000)
                 return true
 
                 //ToDo Jumpscare?
@@ -424,7 +428,7 @@ function animaActions(animatronic,bonusAtack){
     }
     if(animatronic.overcharged&&bonusAtack){
         animatronic.atak.textContent="🟡"
-        setTimeout(()=>{animaActions(animatronic,false)},2000)
+        setTimeout(()=>{return animaActions(animatronic,false)},2000)
     }
     return false
 

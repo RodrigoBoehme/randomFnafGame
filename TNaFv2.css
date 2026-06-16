@@ -102,3 +102,7 @@ body{
     margin: 0;
     padding: 10px;
 }
+img{
+    position: absolute;
+    width: 100%;
+}
