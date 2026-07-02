@@ -36,12 +36,14 @@ body{
     margin-top:300px;
     margin-left: 40px;
     font-size: 15px;
+    border-radius: 10px;
 }
 #fuseBtn{
     width: 50px;
     margin-top: 5px;
     margin-left: 40px;
     font-size: 15px;
+    border-radius: 10px;
 }
 #doorControls{
     width: 50px;

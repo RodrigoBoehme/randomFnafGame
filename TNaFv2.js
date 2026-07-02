@@ -173,7 +173,7 @@ function firstSetup(){
     document.getElementById('btnNose').hidden=false
     
 }
-function Start(){
+function Start(timer=300000){
     // setup door
     spareFuses=3
    firstSetup()
@@ -228,11 +228,11 @@ function Start(){
     const Bnuy=setInterval(()=>{if(animaActions(animatronics[0],true)){endTimers()}},3940)
     const Chinken=setInterval(()=>{if(animaActions(animatronics[3],true)){endTimers()}},4210)
     const foxYarr=setInterval(()=>{if(animaActions(animatronics[2],true)){endTimers()}},4010)
-    const Pwr=setInterval(()=>{updtPwr()},3300)
+    const Pwr=setInterval(()=>{updtPwr()},timer*0.011)
     const ambianSound=setInterval(()=>{if(mRnd()>10){ambiance.play()}},15000)
     const storm=setInterval(()=>{ if(Math.floor(Math.random()*100+1)<=(Math.floor(Math.random()*10+1)+currentNight*2)){if(thunder()){endTimers()}}},1234)
-    const timeChanger=setInterval(()=>{setTimer()},50000)
-    const letsLevelEmUp=setTimeout(()=>{for(let i=0;i<animatronics.length;i++){animatronics[i].level+=2}},120000)
+    const timeChanger=setInterval(()=>{setTimer()},(timer-timer/300)/6) //Default timer 1/6 of normal time
+    const letsLevelEmUp=setTimeout(()=>{for(let i=0;i<animatronics.length;i++){animatronics[i].level+=2}},timer*0.4)
 
     // ToDo make a way to lose?
 
@@ -260,8 +260,9 @@ function Start(){
         document.getElementById("animatronics").style.backgroundColor="#fff"
 
     
-    },300000)//Time to end in ms      
+    },timer)//Time to end in ms      
 }
+// default time 300000
 //Button functions
 
 async function btnNose(){
